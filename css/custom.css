@@ -172,3 +172,6 @@ padding-bottom: 10px;*/
 .admin_menu ul li:hover{
 	background: #e4e3ab;
 }
+.admin_menu ul li:hover a{
+	color: #1b1b1b;
+}
