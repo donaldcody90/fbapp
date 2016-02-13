@@ -1,0 +1,174 @@
+body{
+	font-size: 16px;
+	color: #a8a8a8;
+}
+
+@font-face {
+    font-family: MYRIADPRO;
+    src: url(fonts/MYRIADPRO-REGULAR.OTF);
+}
+
+@font-face {
+    font-family: MYRIADPRO-BOLD;
+    src: url(fonts/MYRIADPRO-BOLD.OTF);
+}
+
+
+/* ng-cloak */
+[ng\:cloak], [ng-cloak], [data-ng-cloak], [x-ng-cloak], .ng-cloak, .x-ng.ng-cloak {
+    display: none;
+}
+ul{
+	list-style: none;
+}
+a{
+	color: #333;
+}
+a:hover{
+	cursor: pointer;
+}
+ul.simple-post-list .post-image {
+	float: left;
+	margin-right: 12px;
+}
+ul.simple-post-list {
+	list-style: none;
+	margin: 0;
+	padding: 0;
+}
+.callout-box{
+	background-color: #546489;
+	color: #fff;
+	padding: 10px 20px;
+}
+.body-title{
+	border: 1px solid #e3e3e3;
+	border-left: 5px solid #234383;
+	padding: 0 20px 20px;
+}
+.featured-box{
+	border: 1px solid #e3e3e3;
+	border-top: 5px solid #234383;
+	padding: 0 20px 20px;
+}
+.breadcrumbs {
+position: relative;
+border-bottom: 1px solid #E5E5E5;
+background-color: #F5F5F5;
+}
+.breadcrumb{
+	margin-bottom: 0;
+}
+.cart-btn{
+	border-radius:0;
+}
+.navbar {
+	border-radius: 0;
+	
+/*background: #438EB9;
+color: #fff;border: 0;*/
+
+}
+/* Removed width:auto from navbar-collapse classs; */
+.navbar-collapse {
+border-top: 0;
+box-shadow: none;
+}
+.navbar .navbar-brand {
+/*color: #FFF;
+font-size: 24px;
+text-shadow: none;
+padding-bottom: 10px;*/
+}
+.form-group-addon{
+	padding-left: -20px;
+}
+
+
+
+.logo{
+	margin-top: 20px;
+}
+.underline{
+	width: 100%;
+	height: 22px;
+	background: #eeeeee;
+	border-bottom: 8px solid #ebb730;
+	margin-top: 15px;
+}
+.header{
+	
+	font-size: 23px;
+}
+.blue{
+	color: #40708d;
+}
+.center{
+	text-align: center;
+}
+.btn-gold{
+	background-color: #ebb730 !important;
+	color:#fff;
+	border-radius: 0px !important;
+	border: none !important;
+	font-size: 16px;
+	font-weight: bold;
+	padding: 10px 20px;
+}
+.btn-center{
+	display: block;
+	margin:0px auto;
+}
+.loginForm{
+	width:300px;
+	margin:40px auto;
+}
+.loginForm input{
+	background: #fbfafa;
+	text-align: center;
+	border: 1px solid #e0e0e0;
+	border-radius: 0px !important;
+	font-family: "MYRIADPRO";
+}
+
+.footer{
+	background: #eeeeee;
+	text-align: center;
+	border-top:1px solid #d6d6d6;
+	margin-top: 20px;
+}
+.footer p{
+	padding:10px 0px;
+	font-size: 12px;
+	color: #989898;
+}
+.footer a{
+	color: #172788;
+}
+.login h4{
+	margin-top: 20px;
+}
+
+/* Dashboard */
+.admin_menu {
+	background: #efefef;
+	border-bottom: 1px solid #d6d6d6;
+}
+.admin_menu ul{
+	margin: 0px;
+	padding:0px;
+}
+.admin_menu ul li{
+	display: table-cell;
+	padding: 10px 15px;
+	border-right:1px solid #d6d6d6;
+}
+
+.admin_menu ul li a{
+	text-decoration: none;
+	color: #999999;
+	display: block;
+}
+.admin_menu ul li:hover{
+	background: #e4e3ab;
+}
