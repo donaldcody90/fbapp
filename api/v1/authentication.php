@@ -16,7 +16,7 @@ $app->post('/login', function() use ($app) {
     $db = new DbHandler();
     $password = $r->customer->password;
     $email = $r->customer->email;
-    $user = $db->getOneRecord("select uid,name,password,email,created from customers_auth where phone='$email' or email='$email'");
+    $user = $db->getOneRecord("select uid,name,password,email,created from users where phone='$email' or email='$email'");
     if ($user != NULL) {
         if(passwordHash::check_password($user['password'],$password)){
         $response['status'] = "success";
@@ -52,10 +52,10 @@ $app->post('/signUp', function() use ($app) {
     $email = $r->customer->email;
     $address = $r->customer->address;
     $password = $r->customer->password;
-    $isUserExists = $db->getOneRecord("select 1 from customers_auth where phone='$phone' or email='$email'");
+    $isUserExists = $db->getOneRecord("select 1 from users where phone='$phone' or email='$email'");
     if(!$isUserExists){
         $r->customer->password = passwordHash::hash($password);
-        $tabble_name = "customers_auth";
+        $tabble_name = "users";
         $column_names = array('phone', 'name', 'email', 'password', 'city', 'address');
         $result = $db->insertIntoTable($r->customer, $column_names, $tabble_name);
         if ($result != NULL) {
@@ -88,4 +88,6 @@ $app->get('/logout', function() {
     $response["message"] = "Logged out successfully";
     echoResponse(200, $response);
 });
+
+
 ?>

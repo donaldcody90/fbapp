@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" ng-app="myApp">
+<html lang="en" ng-app="fbApp">
 
   <head>
     <meta charset="utf-8">
@@ -10,6 +10,7 @@
           <link href="css/bootstrap.min.css" rel="stylesheet">
           <link href="css/custom.css" rel="stylesheet">
           <link href="css/toaster.css" rel="stylesheet">
+
                 <style>
                   a {
                   color: orange;
@@ -24,16 +25,34 @@
               </head>
 
 	<body ng-cloak="">
-		<div class="navbar" role="navigation">
+		<div class="header">
 		  <div class="container">
-			<div class="row">	
-				<div class="logo">
-				  <a href="#"><img src="images/logo.jpg" alt="UCP of Central Arizona"/></a>
-				</div>
-			
-			</div>
+  			<div class="row">	
+  				<div class="logo">
+  				  <a href="#"><img src="images/logo.jpg" alt="UCP of Central Arizona"/></a>
+  				</div>
+          <div ng-if="authenticated" class="pro-box " ng-controller="authCtrl as vm">
+          <!-- code to render a large video block-->
+          <p>{{name}} - <a ng-click="logout();">Logout</a></p>
+         </div>
+  			   
+  			</div>
 		  </div>
 		</div>
+
+    <div class="container" ng-if="authenticated">
+      <div class="row">
+        <div class="admin_menu">
+            <ul>
+                <li><a href="#dashboard"><img src="images/dashboard.png" />Dashboard</a></li>
+                <li><a href="#feedback"><img src="images/notification.png" />Feedback</a></li>
+                <li><a href="#users"><img src="images/admin.png" />Admin</a></li>
+                <li class="setting"><a href="#settings"><img src="images/setting.png" /></a></li>
+            </ul>
+        </div>
+      </div>  
+    </div>
+  
 	
 		  <div class="container" style="margin-top:20px;">
 			 <div data-ng-view="" id="ng-view" class="slide-animation"></div>
@@ -56,5 +75,6 @@
   <script src="app/data.js"></script>
   <script src="app/directives.js"></script>
   <script src="app/authCtrl.js"></script>
+  <script src="app/dashboardCtrl.js"></script>
 </html>
 

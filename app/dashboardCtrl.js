@@ -1,6 +1,6 @@
-app.controller('authCtrl', function ($scope, $rootScope, $routeParams, $location, $http, Data) {
+app.controller('dashboardCtrl', function ($scope, $rootScope, $routeParams, $location, $http, Data) {
     //initially set those objects to null to avoid undefined error
-    console.log($rootScope);
+    //console.log($rootScope);
     $scope.login = {};
     $scope.signup = {};
   
@@ -26,13 +26,10 @@ app.controller('authCtrl', function ($scope, $rootScope, $routeParams, $location
         });
     };
     $scope.logout = function () {
-         
+           debugger;
+		console.log("click lotout");
         Data.get('logout').then(function (results) {
             Data.toast(results);
-            $rootScope.authenticated=false;
-            $rootScope.uid=false;
-            $rootScope.name=null;
-            $rootScope.email=null;
             $location.path('login');
         });
     }

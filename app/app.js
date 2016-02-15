@@ -1,13 +1,13 @@
-var app = angular.module('myApp', ['ngRoute', 'ngAnimate', 'toaster']);
+var app = angular.module('fbApp', ['ngRoute', 'ngAnimate', 'toaster']);
 
 app.config(['$routeProvider',
   function ($routeProvider) {
         $routeProvider.
-        when('/login', {
-            title: 'Login',
-            templateUrl: 'partials/login.html',
-            controller: 'authCtrl'
-        })
+            when('/login', {
+                title: 'Login',
+                templateUrl: 'partials/login.html',
+                controller: 'authCtrl'
+            })
             .when('/logout', {
                 title: 'Logout',
                 templateUrl: 'partials/login.html',
@@ -26,7 +26,12 @@ app.config(['$routeProvider',
             .when('/dashboard', {
                 title: 'Dashboard',
                 templateUrl: 'partials/dashboard.html',
-                controller: 'authCtrl'
+                controller: 'dashboardCtrl'
+            })
+            .when('/feedback', {
+                title: 'Feedback',
+                templateUrl: 'partials/feedback.html',
+                controller: 'dashboardCtrl'
             })
             .when('/', {
                 title: 'Login',
@@ -49,7 +54,7 @@ app.config(['$routeProvider',
                     $rootScope.email = results.email;
                 } else {
                     var nextUrl = next.$$route.originalPath;
-                    if (nextUrl == '/signup' || nextUrl == '/login' || nextUrl == '/forgot') {
+                    if (nextUrl == '/signup' || nextUrl == '/login' || nextUrl == '/forgot' || nextUrl == '/feedback') {
 
                     } else {
                         $location.path("/login");
