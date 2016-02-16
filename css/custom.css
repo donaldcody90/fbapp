@@ -256,3 +256,43 @@ padding-bottom: 10px;*/
 	font-style: italic;
 	font-size: 11px;
 }
+
+
+.feedback_menu li.active{
+	background: #ebb730;
+	
+}
+.feedback_menu li:hover{
+	background: #ebb730 !important;
+}
+.feedback_menu li.active a{
+	color: #fff !important;
+}
+.feedback_menu li:hover a{
+	color: #fff !important;
+}
+
+.progress div {
+    font-size: smaller;
+    background: orange;
+    width: 0;
+}
+.drop-box{
+	background: #efefef;
+	height: 100px;
+	color: #9b9b9b;
+	font-style: italic;
+	font-size: 15px;
+	font-family: Arial;
+	border: 2px dashed  #efefef;
+}
+.drop-box button{
+	margin: 0 auto;
+    display: block;
+    border: none;
+    background: #7f7f7f;
+    color: #fff;
+}
+.dragover{
+	border: 2px dashed  #ebb730;
+}

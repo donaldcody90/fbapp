@@ -89,5 +89,27 @@ $app->get('/logout', function() {
     echoResponse(200, $response);
 });
 
+// Recent activity 
+$app->get('/recent', function() {
+    $db = new DbHandler();
+    $response=$db->getQuery("SELECT * FROM feedbacks ORDER BY id desc");
+    //$response=array(array('title'=>"postt 001"),array('title'=>"post 02"));
+    //$response=array('title'=>"postt 001",'title'=>"post 02");["title"] = "info";
+    //$response["message"] = "Logged out successfully";
+    echoResponse(200, $response);
+});
+
+$app->get('/summary', function() {
+    $db = new DbHandler();
+    $anonymous=$db->getNumRows("SELECT * FROM feedbacks where type=1");
+    $response['anonymous']=$anonymous;
+    $deparment=$db->getNumRows("SELECT * FROM feedbacks where type=2");
+    $response['deparment']=$deparment;
+    $agency=$db->getNumRows("SELECT * FROM feedbacks where type=3");
+    $response['agency']=$agency;
+    $comments=$db->getNumRows("SELECT * FROM fbcomment");
+    $response['comments']=$comments;
+    echoResponse(200, $response);
+});
 
 ?>

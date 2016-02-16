@@ -71,10 +71,14 @@
   <script src="js/angular-route.min.js"></script>
   <script src="js/angular-animate.min.js" ></script>
   <script src="js/toaster.js"></script>
+  <script src="js/ng-file-upload-shim.min.js"></script> <!-- for no html5 browsers support -->
+  <script src="js/ng-file-upload.min.js"></script>
+
   <script src="app/app.js"></script>
   <script src="app/data.js"></script>
   <script src="app/directives.js"></script>
   <script src="app/authCtrl.js"></script>
   <script src="app/dashboardCtrl.js"></script>
+  <script src="app/frontendCtrl.js"></script>
 </html>
 

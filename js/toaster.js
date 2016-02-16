@@ -49,7 +49,7 @@ angular.module('toaster', ['ngAnimate'])
     'body-output-type': '', // Options: '', 'trustedHtml', 'template'
     'body-template': 'toasterBodyTmpl.html',
     'icon-class': 'toast-info',
-    'position-class': 'toast-bottom-left',
+    'position-class': 'toast-bottom-right',
     'title-class': 'toast-title',
     'message-class': 'toast-message'
 })

@@ -10,6 +10,28 @@ class DbHandler {
         $db = new dbConnect();
         $this->conn = $db->connect();
     }
+    
+      /**
+     * Fetching num rows
+     */
+    public function getNumRows($query) {
+        $r = $this->conn->query($query) or die($this->conn->error.__LINE__);
+      
+        return $r->num_rows;
+    }
+    /**
+     * Fetching multi record
+     */
+    public function getQuery($query) {
+        $r = $this->conn->query($query) or die($this->conn->error.__LINE__);
+        $data=array();
+        while($result = $r->fetch_array(MYSQLI_ASSOC))
+        {
+            $data[]=$result;
+        }
+        return $data;
+    }
+
     /**
      * Fetching single record
      */

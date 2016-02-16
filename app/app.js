@@ -1,9 +1,10 @@
-var app = angular.module('fbApp', ['ngRoute', 'ngAnimate', 'toaster']);
+var app = angular.module('fbApp', ['ngRoute', 'ngAnimate', 'toaster','ngFileUpload']);
 
 app.config(['$routeProvider',
   function ($routeProvider) {
+
         $routeProvider.
-            when('/login', {
+            when('/admin/login', {
                 title: 'Login',
                 templateUrl: 'partials/login.html',
                 controller: 'authCtrl'
@@ -23,20 +24,46 @@ app.config(['$routeProvider',
                 templateUrl: 'partials/forgot.html',
                 controller: 'authCtrl'
             })
-            .when('/dashboard', {
+            .when('/admin/dashboard', {
                 title: 'Dashboard',
                 templateUrl: 'partials/dashboard.html',
-                controller: 'dashboardCtrl'
+                controller: 'dashboardCtrl',
+                role: '1'
             })
             .when('/feedback', {
                 title: 'Feedback',
                 templateUrl: 'partials/feedback.html',
                 controller: 'dashboardCtrl'
             })
-            .when('/', {
+             .when('/admin', {
                 title: 'Login',
                 templateUrl: 'partials/login.html',
                 controller: 'authCtrl',
+                role: '0'
+            })
+           
+            .when('/department', {
+                title: 'Department',
+                templateUrl: 'partials/department.html',
+                controller: 'frontendCtrl',
+                role: '0'
+            })
+            .when('/agency', {
+                title: 'agency',
+                templateUrl: 'partials/agency.html',
+                controller: 'frontendCtrl',
+                role: '0'
+            })
+            .when('/anonymous', {
+                title: 'Anonymous',
+                templateUrl: 'partials/anonymous.html',
+                controller: 'frontendCtrl',
+                role: '0'
+            })
+             .when('/', {
+                title: 'Home',
+                templateUrl: 'partials/anonymous.html',
+                controller: 'frontendCtrl',
                 role: '0'
             })
             .otherwise({
@@ -54,12 +81,47 @@ app.config(['$routeProvider',
                     $rootScope.email = results.email;
                 } else {
                     var nextUrl = next.$$route.originalPath;
+                    console.log(nextUrl);
                     if (nextUrl == '/signup' || nextUrl == '/login' || nextUrl == '/forgot' || nextUrl == '/feedback') {
 
                     } else {
-                        $location.path("/login");
+                       //$location.path("/login");
                     }
                 }
             });
         });
     });
+
+
+angular.module('fbApp').filter('cut', function () {
+    return function (value, wordwise, max, tail) {
+            if (!value) return '';
+
+            max = parseInt(max, 10);
+            if (!max) return value;
+            if (value.length <= max) return value;
+
+            value = value.substr(0, max);
+            if (wordwise) {
+                var lastspace = value.lastIndexOf(' ');
+                if (lastspace != -1) {
+                    value = value.substr(0, lastspace);
+                }
+            }
+
+            return value + (tail || ' …');
+    };
+});
+
+angular.module('fbApp').filter('datetime', function($filter)
+{
+     return function(input)
+     {
+      if(input == null){ return ""; } 
+     
+      var _date = $filter('date')(new Date(input),'EEEE, MMMM dd, yyyy - hh:ss a');
+     
+      return _date;
+
+     };
+});

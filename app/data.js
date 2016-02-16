@@ -27,6 +27,7 @@ app.factory("Data", ['$http', 'toaster',
                 return results.data;
             });
         };
+        obj.uploadURL=serviceBase+"upload.php";
 
         return obj;
 }]);

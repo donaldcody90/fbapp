@@ -1,0 +1,77 @@
+<div class="row">
+        <div class="admin_menu feedback_menu">
+            <ul>
+                <li><a href="#anonymous">Anonymous</a></li>
+                <li  class="active"><a href="#department">By Deparment</a></li>
+                <li><a href="#agency">By Agency Goal</a></li>
+            </ul>
+        </div>
+</div>  
+
+<div class="page-content home">
+
+<div class="row">
+<div class="space-6"></div>
+<div class="col-sm-10 col-sm-offset-1">
+    <div id="login-box" class="login-box visible widget-box no-border">
+        <div class="widget-body">
+            <div class="widget-main">
+              
+                <h4 class="header blue lighter bigger center">
+                    HOME PAGE
+                </h4>
+                <p class="center">Enter the details below</p>
+
+                <div class="space-16"></div>
+
+                <form name="loginForm" class="form-horizontal loginForm" role="form">
+                    <div class="form-group">
+                       
+                        <div >
+                           <span class="block input-icon input-icon-right">
+                                <input type="text" class="form-control" placeholder="YOUR EMAIL HERE" name="email" ng-model="login.email" required focus/>
+                            </span>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div >
+                           <span class="block input-icon input-icon-right">
+                                <input type="password" class="form-control" placeholder="YOUR PASSWORD HERE" ng-model="login.password" required/>
+                            </span>
+                        </div>
+                    </div>
+                    <div class="space"></div>
+                
+                    <div class="form-group">
+                        <div class="">
+                           <p class="center">
+                                <input type="checkbox" ng-model="login.remember" />
+                                <span>Remember me on this computer</span>
+                            </p>
+                            <p class="center"><a href="#/forgot" class="blue">forgot your password?</a></p>
+                        </div>
+                        
+                    </div>
+                  
+                   
+
+                     <div class="clearfix">
+                        <div class="row">
+                            <button type="submit" class="width-35 center btn btn-sm btn-primary btn-gold btn-center" ng-click="doLogin(login)" data-ng-disabled="loginForm.$invalid">LOGIN</button>
+                        </div>
+                    </div>
+                        <div class="space-4"></div>
+              
+                </form>
+
+                
+                
+            </div><!-- /widget-main -->
+
+            
+        </div><!-- /widget-body -->
+    </div><!-- /login-box -->
+
+</div><!-- /position-relative -->
+</div>
+</div><!-- /.page-content -->
