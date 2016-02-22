@@ -1,0 +1,71 @@
+
+<div class="row">
+	<div class="filter">
+		<div class="col-md-1 col-text-search">
+			<span class="text_fillter">Search</span>
+		</div>
+		
+		<div class="col-md-3 col-search pull-right">
+			<form   ng-submit="onSearchSubmit()">
+				<input type="text" class="form-control" placeholder="Search..." name="keyword" ng-model="inp.keyword"  />
+			</form>
+		</div>
+	</div>
+</div>
+
+<div class="row">
+		<div class="col-md-3">
+			<div class="col-filter">
+			<h4>Filter Feedback</h4>
+			<a class="anon_filter">Anonymous</a>
+			<select ng-change="changeDepartment()" name="department_id" ng-init="inp.department_id=-1" 
+  				ng-model="inp.department_id" class="form-control" required>
+               <option value="-1" selected="selected">All Department</option>
+              <option ng-repeat="f in categories.department" value={{f.id}}>{{f.name}}</option>
+                                  
+            </select>
+            <select ng-change="changeAgency()" name="agency_id" ng-init="inp.agency_id=-1" 
+  				ng-model="inp.agency_id" class="form-control" required>
+               <option value="-1" selected="selected">All Agency</option>
+              <option ng-repeat="f in categories.agency" value={{f.id}}>{{f.name}}</option>
+                                  
+            </select>
+       		 </div>
+		</div>
+		<div class="col-md-9">
+			<div class="fblists">
+				<div class="fb-header-title">
+					<h4>Feedback Summary - All Deparments</h4>
+					<div class="control_bar">
+						<img src="images/prev.jpg"/>
+						<img src="images/next.jpg"/>
+					</div>
+				</div>
+				<div class="fb-header">
+					<div class="check-all"><input type="checkbox" class="form-control fb-check" ng-model="master"  /></div>
+					<ul class="fb-links">
+						<li class="col-md-4"><a>Publish</a></li>
+						<li class="col-md-4"><a>Unpublish</a></li>
+						<li class="col-md-4"><a>Delete</a></li>
+					</ul>
+				</div>
+				<div class="fbitems">
+					<div class="fb-item" ng-repeat="fb in pagedItems">
+						<div class="fb-checkitem">
+							<input type="checkbox" class="form-control fb-check" ng-checked="master" />
+						</div>
+			      		<img src="images/icon.png">
+			      		<div class="fb-info">
+			      			<p><span class="fb-name">{{fb.name}}</span> - {{fb.subject}}</p>
+			      			<p class="datetime">{{fb.create_date | fulldatetime}}</p>
+			      		</div>
+			      		<div class="fb-uinfo">
+			      			<p>User: Admin</p>
+			      			<p>Status: New</p>
+			      		</div>
+			      	</div>
+
+				</div>
+			</div>
+		</div>
+</div>

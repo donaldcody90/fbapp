@@ -30,10 +30,10 @@ app.config(['$routeProvider',
                 controller: 'dashboardCtrl',
                 role: '1'
             })
-            .when('/feedback', {
+            .when('/admin/fblist', {
                 title: 'Feedback',
-                templateUrl: 'partials/feedback.html',
-                controller: 'dashboardCtrl'
+                templateUrl: 'partials/fblist.html',
+                controller: 'fblistCtrl'
             })
              .when('/admin', {
                 title: 'Login',
@@ -60,6 +60,12 @@ app.config(['$routeProvider',
                 controller: 'frontendCtrl',
                 role: '0'
             })
+             .when('/allfeedbacks', {
+                title: 'All Feedbacks ',
+                templateUrl: 'partials/allfeedbacks.html',
+                controller: 'allfbCtrl',
+                role: '0'
+            })
              .when('/', {
                 title: 'Home',
                 templateUrl: 'partials/anonymous.html',
@@ -67,12 +73,15 @@ app.config(['$routeProvider',
                 role: '0'
             })
             .otherwise({
-                redirectTo: '/login'
+                redirectTo: '/'
             });
   }])
     .run(function ($rootScope, $location, Data) {
         $rootScope.$on("$routeChangeStart", function (event, next, current) {
+             
             $rootScope.authenticated = false;
+
+
             Data.get('session').then(function (results) {
                 if (results.uid) {
                     $rootScope.authenticated = true;
@@ -89,7 +98,10 @@ app.config(['$routeProvider',
                     }
                 }
             });
+
         });
+
+
     });
 
 
@@ -113,7 +125,7 @@ angular.module('fbApp').filter('cut', function () {
     };
 });
 
-angular.module('fbApp').filter('datetime', function($filter)
+angular.module('fbApp').filter('fulldatetime', function($filter)
 {
      return function(input)
      {
@@ -124,4 +136,24 @@ angular.module('fbApp').filter('datetime', function($filter)
       return _date;
 
      };
+});
+
+angular.module('fbApp').filter('datetime', function($filter)
+{
+     return function(input)
+     {
+      if(input == null){ return ""; } 
+     
+      var _date = $filter('date')(new Date(input),'MMMM dd, yyyy - hh:ss a');
+     
+      return _date;
+
+     };
+});
+
+
+app.filter('html', function($sce) {
+    return function(val) {
+        return $sce.trustAsHtml(val);
+    };
 });

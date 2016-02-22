@@ -14,12 +14,13 @@
 <div class="space-6"></div>
 <div class="col-sm-12 ">
          <div class="col-sm-7">
-                <form name="loginForm" class="form-horizontal loginForm" role="form">
+                <form name="feedbackForm" class="form-horizontal feedbackForm" role="form">
+                  <input type="hidden" name="name" ng-model="inp.type" ng-init="inp.type=1" value="1" />
                     <div class="form-group">
                        
                         <div >
                            <span class="block input-icon input-icon-right">
-                                <input type="text" class="form-control" placeholder="ENTER SUBJECT" name="subject" ng-model="login.subject" required focus/>
+                                <input type="text" class="form-control" placeholder="ENTER SUBJECT" name="subject" ng-model="inp.subject" required />
                             </span>
                         </div>
                     </div>
@@ -27,51 +28,71 @@
                     <div class="form-group">
                         <div >
                            <span class="block input-icon input-icon-right">
-                                <textarea class="form-control" placeholder="GIVE US SOME FEEDBACK" name="content" required></textarea>
+                                <textarea class="form-control" placeholder="GIVE US SOME FEEDBACK" name="content" ng-model="inp.content" required></textarea>
                             </span>
                         </div>
                     </div>
 
                     <div class="form-group">
-                            <div ngf-drop ngf-select="uploadFiles($files, $invalidFiles)" ng-model="files" class="drop-box" 
-        ngf-drag-over-class="'dragover'" ngf-multiple="true" ngf-allow-dir="true"
-        accept="image/*,application/pdf" 
-        ngf-pattern="'image/*,application/pdf'">
-        <p class="center">Drag & Drop files here</p>
-        <p class="center">or</p>
+                            <div ngf-drop ngf-select="uploadFiles($files, $invalidFiles)" ng-model="files"  class="drop-box" 
+                                ngf-drag-over-class="'dragover'" ngf-multiple="true" ngf-allow-dir="true"
+                                accept="image/*,application/pdf,.*" 
+                                ngf-pattern="'image/*,application/pdf,video/*,.*'">
+                                <p class="center">Drag & Drop files here</p>
+                                <p class="center">or</p>
+                                <p class="btn_select center">Select Files</p>
 
-                      <button class="center" ngf-select="uploadFiles($files, $invalidFiles)" multiple
-                              accept="image/*,video/*" ngf-max-height="1000" ngf-max-size="100MB">
-                          Select Files</button>
+                  
                           </div>
-                      <br><br>
-                      Files:
-                      <ul>
+                          <!--<button class="center" ngf-select="uploadFiles11($files, $invalidFiles)" multiple
+                              accept="image/*,video/*" ngf-max-height="1000" ngf-max-size="100MB">
+                          Select Files</button>-->
+                      <ul class="list_attach">
+                        <li ng-repeat="f in listFiles">
+                           {{f.name}}  
+                           <!--<span class="progress" ng-show="f.progress >= 0">
+                            <div style="width:{{f.progress}}%"  
+                                ng-bind="f.progress + '%'"></div>
+                                
+                          </span>-->
+                          <a class="remove_file" ng-click="removeFile(f)">x</a> 
+                          <span class="progess" ng-bind="f.progress + '%'"></span>
+                          <br/>{{f.$error}} {{f.$errorParam}}
+                        </li>
+                      </ul>
+                     
+                      <!--<ul class="list_attach">
                         <li ng-repeat="f in files" style="font:smaller">{{f.name}} {{f.$errorParam}}
                           <span class="progress" ng-show="f.progress >= 0">
                             <div style="width:{{f.progress}}%"  
                                 ng-bind="f.progress + '%'"></div>
                           </span>
+                          <a class="remove_file" ng-click="removeFile(f)">x</a>
                         </li>
                         <li ng-repeat="f in errFiles" style="font:smaller">{{f.name}} {{f.$error}} {{f.$errorParam}}
                         </li> 
                       </ul>
-                      {{errorMsg}}
+                      {{errorMsg}}-->
                      </div>
-
+                    <div class="form-group">
+                       <div class="raido_box"><input type="radio" ng-checked="true" ng-value="0"
+ class="form-control radio" name="is_public" value="0" ng-model="inp.is_public" > <span>Make Post Private</span></div>
+                       <div class="raido_box"> <input type="radio" class="form-control radio" name="is_public" value="1" ng-model="inp.is_public"> <span>Make Post Public</span></div>
+                        <div class="raido_box"> <input type="checkbox" class="form-control checkbox" name="allow_comment" value="1" ng-model="inp.allow_comment"> <span>Allow Engagement</span></div>
+                    </div>
                     <div class="clearfix">
                         <div class="row">
-                            <button type="submit" class="width-35 center btn btn-sm btn-primary btn-gold btn-center" ng-click="doLogin(login)" data-ng-disabled="loginForm.$invalid">SUBMIT</button>
+                            <button type="submit" class="width-35 center btn btn-sm btn-primary btn-gold " ng-click="doSubmit(inp)" data-ng-disabled="feedbackForm.$invalid">SUBMIT</button>
                         </div>
                     </div>
                       
               
                 </form>
          </div>
-         <div class="col-sm-5">
+         <div class="col-sm-5 grey-box">
             <h3>Is this really Anonymous?</h3>
-            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam ac porta orci. Curabitur vel iaculis sapien, eu rutrum risus. Nunc sit amet turpis tincidunt, scelerisque elit nec, lacinia lorem. Nunc ultricies neque quis purus aliquam commodo. Interdum et malesuada fames ac ante ipsum primis in faucibus.</p>
-            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam ac porta orci. Curabitur vel iaculis sapien, eu rutrum risus. Nunc sit amet turpis tincidunt, scelerisque elit nec, lacinia lorem. Nunc ultricies neque quis purus aliquam commodo. Interdum et malesuada fames ac ante ipsum primis in faucibus.</p>
+           <div ng-bind-html="anonymous_text | html"></div>
+
          </div>
    
 </div><!-- /position-relative -->

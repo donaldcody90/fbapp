@@ -44,18 +44,18 @@
       <div class="row">
         <div class="admin_menu">
             <ul>
-                <li><a href="#dashboard"><img src="images/dashboard.png" />Dashboard</a></li>
-                <li><a href="#feedback"><img src="images/notification.png" />Feedback</a></li>
-                <li><a href="#users"><img src="images/admin.png" />Admin</a></li>
-                <li class="setting"><a href="#settings"><img src="images/setting.png" /></a></li>
+                <li><a href="#admin/dashboard"><img src="images/dashboard.png" />Dashboard</a></li>
+                <li><a href="#admin/fblist"><img src="images/notification.png" />Feedback</a></li>
+                <li><a href="#admin/users"><img src="images/admin.png" />Admin</a></li>
+                <li class="setting"><a href="#admin/settings"><img src="images/setting.png" /></a></li>
             </ul>
         </div>
       </div>  
     </div>
   
 	
-		  <div class="container" style="margin-top:20px;">
-			 <div data-ng-view="" id="ng-view" class="slide-animation"></div>
+		  <div class="container">
+			 <div data-ng-view="" id="ng-view" class="slide-animation" autoscroll="enableAutoScroll"></div>
 		  </div>
       <div class="container">
           <div class="row">
@@ -80,5 +80,7 @@
   <script src="app/authCtrl.js"></script>
   <script src="app/dashboardCtrl.js"></script>
   <script src="app/frontendCtrl.js"></script>
+  <script src="app/allfbCtrl.js"></script>
+  <script src="app/fblistCtrl.js"></script>
 </html>
 

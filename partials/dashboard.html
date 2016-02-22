@@ -27,7 +27,7 @@
                 <img src="images/icon.png">
                 <div class="info">
                     <p><strong>{{post.name ? post.name:"Anonymous"}}</strong> - {{post.content | cut:true:100}}</p>
-                    <p class="datetime">{{post.create_date | datetime}}</p>
+                    <p class="datetime">{{post.create_date | fulldatetime}}</p>
                 </div>
             </div>
         </div>

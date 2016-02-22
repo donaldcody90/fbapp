@@ -19,6 +19,15 @@ class DbHandler {
       
         return $r->num_rows;
     }
+
+    /**
+     * Execute Query
+     */
+    public function excuteQuery($query) {
+        $r = $this->conn->query($query) or die($this->conn->error.__LINE__);
+        return $r;
+    }
+
     /**
      * Fetching multi record
      */
