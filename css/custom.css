@@ -678,3 +678,16 @@ a.disabled{
 .fbbox{
 	margin-bottom: 15px;
 }
+.grey{
+	color: #bebebe;
+}
+.files{overflow: hidden;}
+.attachment .grey{
+	margin: 15px 0px;
+	border-bottom: 1px solid #ededed;
+	padding-bottom: 10px;
+}
+.atfile{
+	background: #eeeeee;
+	float: left;
+}
