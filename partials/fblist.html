@@ -17,7 +17,7 @@
 		<div class="col-md-3">
 			<div class="col-filter">
 			<h4>Filter Feedback</h4>
-			<a class="anon_filter">Anonymous</a>
+			<a class="anon_filter" ng-click="changeAnonymoust()">Anonymous</a>
 			<select ng-change="changeDepartment()" name="department_id" ng-init="inp.department_id=-1" 
   				ng-model="inp.department_id" class="form-control" required>
                <option value="-1" selected="selected">All Department</option>
@@ -35,16 +35,16 @@
 		<div class="col-md-9">
 			<div class="fblists">
 				<div class="fb-header-title">
-					<h4>Feedback Summary - All Deparments</h4>
+					<h4>Feedback Summary - {{fbtitle}}</h4>
 					<div class="control_bar">
-						<img src="images/prev.jpg"/>
-						<img src="images/next.jpg"/>
+						<a ng-click="prevLoad()"><img src="images/prev.jpg"/></a>
+						<a ng-click="nextLoad()"><img src="images/next.jpg"/></a>
 					</div>
 				</div>
 				<div class="fb-header">
 					<div class="check-all"><input type="checkbox" class="form-control fb-check" ng-model="master"  /></div>
 					<ul class="fb-links">
-						<li class="col-md-4"><a>Publish</a></li>
+						<li class="col-md-4"><a ng-click="publish()">Publish</a></li>
 						<li class="col-md-4"><a>Unpublish</a></li>
 						<li class="col-md-4"><a>Delete</a></li>
 					</ul>
@@ -52,11 +52,11 @@
 				<div class="fbitems">
 					<div class="fb-item" ng-repeat="fb in pagedItems">
 						<div class="fb-checkitem">
-							<input type="checkbox" class="form-control fb-check" ng-checked="master" />
+							<input type="checkbox" name="fbcheck"  ng-model="selected[fb.id]" class="form-control fb-check" ng-checked="master" />
 						</div>
 			      		<img src="images/icon.png">
 			      		<div class="fb-info">
-			      			<p><span class="fb-name">{{fb.name}}</span> - {{fb.subject}}</p>
+			      			<a ui-sref="fblist.detail({ id: 1 })"><p><span class="fb-name">{{fb.name ? fb.name:"Anonymous"}}</span> - {{fb.subject}}</p></a>
 			      			<p class="datetime">{{fb.create_date | fulldatetime}}</p>
 			      		</div>
 			      		<div class="fb-uinfo">

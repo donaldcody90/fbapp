@@ -3,7 +3,7 @@ app.controller('fblistCtrl', function ($scope, $rootScope, $routeParams, $locati
     Data.get('getCategories').then(function (results) {
         $scope.categories=results;
     });
-
+    $scope.fbtitle="All Deparments";
     $scope.itemsPerPage = 2;
     $scope.currentPage = 0;
     $scope.catID =-1;
@@ -23,7 +23,7 @@ app.controller('fblistCtrl', function ($scope, $rootScope, $routeParams, $locati
 
     };
    $scope.showMore=false;
-    Data.post('getFB', {
+    Data.post('getALLFB', {
           currentPage:$scope.currentPage,
           itemsPerPage:$scope.itemsPerPage
         }).then(function (results) {
@@ -34,7 +34,10 @@ app.controller('fblistCtrl', function ($scope, $rootScope, $routeParams, $locati
     });
 
   
+    $scope.publish = function(){
+        console.log($scope.selection);
     
+    }
    // $scope.total =100;
     //$scope.pagedItems = Item.get($scope.currentPage*$scope.itemsPerPage,
    // $scope.itemsPerPage);
@@ -42,7 +45,12 @@ app.controller('fblistCtrl', function ($scope, $rootScope, $routeParams, $locati
        $scope.inp.department_id=-1;
        $scope.catID=-1;
        $scope.currentPage=0;
-       Data.post('getFB', {
+       if($scope.inp.agency_id > 0){
+         $scope.fbtitle="Agency Global";
+        }else{
+           $scope.fbtitle="All Deparments";
+        }
+       Data.post('getALLFB', {
           currentPage:$scope.currentPage,
           itemsPerPage:$scope.itemsPerPage,
           department_id:$scope.inp.department_id,
@@ -61,7 +69,14 @@ app.controller('fblistCtrl', function ($scope, $rootScope, $routeParams, $locati
       $scope.inp.agency_id=-1;
       $scope.catID=-1;
       $scope.currentPage=0;
-       Data.post('getFB', {
+      if($scope.inp.department_id > 0)
+      {
+          $scope.fbtitle="Deparments";
+      }else{
+         $scope.fbtitle="All Deparments";
+      }
+      
+       Data.post('getALLFB', {
           currentPage:$scope.currentPage,
           itemsPerPage:$scope.itemsPerPage,
           department_id:$scope.inp.department_id,
@@ -80,7 +95,8 @@ app.controller('fblistCtrl', function ($scope, $rootScope, $routeParams, $locati
       $scope.inp.department_id=-1;
       $scope.catID=0;
       $scope.currentPage=0;
-       Data.post('getFB', {
+      $scope.fbtitle="Anonymous";
+       Data.post('getALLFB', {
           currentPage:$scope.currentPage,
           itemsPerPage:$scope.itemsPerPage,
           department_id:$scope.inp.department_id,
@@ -100,7 +116,8 @@ app.controller('fblistCtrl', function ($scope, $rootScope, $routeParams, $locati
        //$scope.inp.department_id=-1;
        //$scope.catID=-1;
        $scope.currentPage=0;
-        Data.post('getFB', {
+       $scope.fbtitle="Search Results";
+        Data.post('getALLFB', {
           currentPage:$scope.currentPage,
           itemsPerPage:$scope.itemsPerPage,     
            department_id:$scope.inp.department_id,
@@ -116,10 +133,11 @@ app.controller('fblistCtrl', function ($scope, $rootScope, $routeParams, $locati
 
         });
     }
-    $scope.loadMore = function() {
+    $scope.nextLoad = function() {
         console.log("load more");
-        $scope.currentPage++;
-         Data.post('getFB', {
+        if( $scope.currentPage < $scope.pageCount()-1)
+            $scope.currentPage++;
+         Data.post('getALLFB', {
           currentPage:$scope.currentPage,
           itemsPerPage:$scope.itemsPerPage,
           department_id:$scope.inp.department_id,
@@ -128,7 +146,26 @@ app.controller('fblistCtrl', function ($scope, $rootScope, $routeParams, $locati
           keyword:$scope.inp.keyword
          }).then(function (results) {
                 console.log(results);
-             $scope.pagedItems = $scope.pagedItems.concat(results.pagedItems);
+             //$scope.pagedItems = $scope.pagedItems.concat(results.pagedItems);
+             $scope.pagedItems = results.pagedItems;
+             $scope.nextPageDisabledClass();
+        });
+    };
+    $scope.prevLoad = function() {
+        console.log("load more");
+        if($scope.currentPage > 0)
+            $scope.currentPage--;
+         Data.post('getALLFB', {
+          currentPage:$scope.currentPage,
+          itemsPerPage:$scope.itemsPerPage,
+          department_id:$scope.inp.department_id,
+          agency_id:$scope.inp.agency_id,
+          catID:$scope.catID,
+          keyword:$scope.inp.keyword
+         }).then(function (results) {
+                console.log(results);
+             //$scope.pagedItems = $scope.pagedItems.concat(results.pagedItems);
+             $scope.pagedItems = results.pagedItems;
              $scope.nextPageDisabledClass();
         });
     };
@@ -138,6 +175,13 @@ app.controller('fblistCtrl', function ($scope, $rootScope, $routeParams, $locati
          $scope.showMore=false;
       }else{
         $scope.showMore=true;
+      }
+   };
+   $scope.prevPageDisabledClass = function() {
+      if( $scope.currentPage <= 0){
+         $scope.showPrev=false;
+      }else{
+        $scope.showPrev=true;
       }
    };
 

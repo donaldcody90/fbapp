@@ -35,6 +35,12 @@ app.config(['$routeProvider',
                 templateUrl: 'partials/fblist.html',
                 controller: 'fblistCtrl'
             })
+            .when('/admin/detail', {
+                url: '/:id',
+                title: 'Feedback detail',
+                templateUrl: 'partials/fbdetail.html',
+                controller: 'fblistCtrl'
+            })
              .when('/admin', {
                 title: 'Login',
                 templateUrl: 'partials/login.html',

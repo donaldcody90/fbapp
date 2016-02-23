@@ -146,6 +146,7 @@ $app->get('/totalFB', function() {
     $total_rows=$db->getNumRows("SELECT * FROM feedbacks WHERE is_approve=1");
     echoResponse(200, $total_rows);
 });
+
 $app->post('/getFB', function() use ($app) {
     $db = new DbHandler();
     $r = json_decode($app->request->getBody());
@@ -181,6 +182,42 @@ $app->post('/getFB', function() use ($app) {
     echoResponse(200,$response);
 });
 
+
+
+$app->post('/getALLFB', function() use ($app) {
+    $db = new DbHandler();
+    $r = json_decode($app->request->getBody());
+    $currentPage=$r->currentPage;
+    $itemsPerPage=$r->itemsPerPage;
+    $start=$currentPage* $itemsPerPage;
+    $filter="";
+    
+    if(isset($r->department_id) &&  $r->department_id >= 0)
+    {
+        $filter .=" and cat_id=".$r->department_id;
+    }
+
+    if(isset($r->agency_id) &&  $r->agency_id >= 0)
+    {
+        $filter .=" and cat_id=".$r->agency_id;
+    }
+
+    if(isset($r->catID) &&  $r->catID >= 0)
+    {
+        $filter .=" and cat_id=".$r->catID;
+    }
+
+     if(isset($r->keyword) &&  !empty($r->keyword))
+    {
+        $filter .=" and subject like '%".$r->keyword."%'";
+    }
+
+    $total_rows=$db->getNumRows("SELECT * FROM feedbacks WHERE 1=1 ".$filter);
+    $fbs=$db->getQuery("SELECT * FROM feedbacks WHERE 1=1 ".$filter." LIMIT ". $start.",". $itemsPerPage);
+    $response['totalRows']=$total_rows;
+    $response['pagedItems']=$fbs;
+    echoResponse(200,$response);
+});
 
 $app->post('/getSetting', function() use ($app) {
     $db = new DbHandler();
