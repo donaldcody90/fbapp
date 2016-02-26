@@ -49,7 +49,7 @@
       	<div class="fb-item"  ng-repeat="fb in pagedItems">
       		<img src="images/icon.png">
       		<div class="fb-info">
-      			<p>{{fb.subject}}</p>
+      			<a ng-click="openLightBox(fb)"><p>{{fb.subject}}</p></a>
       			<p class="datetime">submitted {{fb.create_date | datetime}}  by {{fb.name ? fb.name:"Anonymous"}}</p>
       		</div>
       	</div>
@@ -59,7 +59,8 @@
       	
 
       	<a ng-show="showMore" class="button" ng-click="loadMore()">LOAD MORE ...</a>
-      </div>   
+      </div>
+    
 </div><!-- /position-relative -->
 </div>
 </div><!-- /.page-content -->

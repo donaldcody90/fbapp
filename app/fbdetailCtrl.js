@@ -16,14 +16,32 @@ app.controller('fbdetailCtrl', function ($scope, $rootScope, $routeParams, $loca
           console.log(results);
           $scope.fbitem=results;
     });
-
+    $scope.perPage = 1;
+    $scope.cPage = 0;    
+    $scope.totalPage = 0;  
     Data.post('getFBComments', {
-          fbid:$routeParams.fbid
+          fbid:$routeParams.fbid,
+          perPage:$scope.perPage,
+          cpage: $scope.cPage
         }).then(function (results) {
           console.log(results);
-          $scope.fbcomments=results;
+          $scope.totalPage=Math.ceil(results.totalRows/$scope.perPage) - 1;
+          $scope.fbcomments=results.pagedItems;
           console.log($scope.fbcomments); 
     });
+    $scope.moreCM = function(){
+        $scope.cPage=$scope.cPage+1;
+        Data.post('getFBComments', {
+          fbid:$routeParams.fbid,
+          perPage:$scope.perPage,
+          cpage: $scope.cPage
+        }).then(function (results) {
+          console.log(results);
+          $scope.totalPage=Math.ceil(results.totalRows/$scope.perPage) - 1;
+          $scope.fbcomments = $scope.fbcomments.concat(results.pagedItems);  
+        });
+    }
+
 
     $scope.update = function(){
        Data.post('updateFB', {

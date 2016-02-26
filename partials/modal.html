@@ -1,0 +1,72 @@
+<div class="modal-dialog" >
+  <div class="modal-content">
+    <div class="modal-header">
+      <button type="button" class="close" ng-click="cancel()"><img src="images/close.jpg"/></button>
+      <h4 class="modal-title"></h4>
+    </div>
+    <div class="modal-body">
+      <div class="fb-header grey-box">
+         <p class="subject">{{lbItem.subject}}</p>
+         <p class="name_date">{{fb.name ? fb.name:"Anonymous"}} - {{lbItem.create_date | fulldatetime}}</p>
+         <p class="category" ng-show="lbItem.type ==  1" ><span>By Anonymous</span></p>
+         <p class="category" ng-show="lbItem.type ==  2"><span>By Department :</span> {{lbItem.category}}</p>
+         <p class="category" ng-show="lbItem.type ==  3"><span>By Agency Global :</span> {{lbItem.category}}</p>
+      </div>
+      <div class="model_content">
+        {{lbItem.content}}
+      </div>
+      <div class="attachments">
+        <div class="attfile"  ng-repeat="file in lbItem.attach_files">
+           <a href="attachs/{{file}}" target="_blank">{{file}}</a>
+        </div>
+      </div>
+      <div class="model_control_bar">
+          <ul class="feedback_toolbar">
+              <li ng-show="lbItem.comments.length  > 0" ><span>{{lbItem.comments.length}}</span> Comments</li>
+              <li><a class="feedbacklike" ng-click="fbLike(lbItem)" ng-controller="allfbCtrl as vm" ><img src="images/like.png"></a> <span id="fblike_count_50" ng-show="lbItem.usr_like > 0">{{lbItem.usr_like}}</span> Agree</li>
+              <li><a class="feedbackdislike" ng-click="fbDisLike(lbItem)"><img src="images/dislike.png"></a> <span id="fbdislike_count_50" ng-show="lbItem.usr_dislike > 0">{{lbItem.usr_dislike}}</span> Disagree</li>
+           </ul>
+      </div>
+      <div class="comments_box">
+          <div class="comment_form">
+            <form name="commentForm" class="commentForm" role="form">
+              <div class="form-group">
+                  <input class="form-control" name="name" ng-model="cm.name" Placeholder="Your name" required />
+              </div>
+              <div class="form-group">
+                  <textarea class="form-control" name="comment" ng-model="cm.comment" Placeholder="Your comment" required ></textarea>
+              </div>
+              <div class="form-group">
+                  <button type="submit" class="width-35 center btn btn-sm btn-primary btn-gold " data-ng-disabled="commentForm.$invalid" ng-click="postComment(cm)" />POST</button>
+              </div>
+            </form>
+          </div>
+
+          <div class="comment_list">
+              <div class="cm_item" ng-repeat="cm in lbItem.comments">
+                  <div class="cm_header">
+                    <p class="name">{{cm.name}}</p>
+                    <p class="cmdate">{{cm.create_date | datetime}}</p>
+                  </div>
+                  <div class="cm_content">
+                    {{cm.comment}}
+                  </div>
+                  <div class="cm_like_box">
+                      <ul class="feedback_toolbar">
+                        <li><a class="feedbacklike" ng-click="cmLike(cm)" ><img src="images/like.png"></a> <span ng-show="cm.usr_like > 0">{{cm.usr_like}}</span> Agree</li>
+                        <li><a class="feedbackdislike" ng-click="cmDisLike(cm)" ><img src="images/dislike.png"></a> <span ng-show="cm.usr_dislike > 0">{{cm.usr_dislike}}</span> Disagree</li>
+                     </ul>
+                  </div>
+
+              </div>
+          
+              <a ng-show="lbItem.totalPage > lbItem.cPage" class="button" ng-click="moreCM()">LOAD MORE ...</a>
+          </div>
+      </div>
+    </div>
+    <!--<div class="modal-footer">
+      <button type="button" class="btn btn-default" ng-click="cancel()">Close</button>
+      <button type="button" class="btn btn-primary" ng-click="ok()">Save changes</button>
+    </div>-->
+  </div><!-- /.modal-content -->
+</div><!-- /.modal-dialog -->

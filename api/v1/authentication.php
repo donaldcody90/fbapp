@@ -2,10 +2,13 @@
 $app->get('/session', function() {
     $db = new DbHandler();
     $session = $db->getSession();
+   
     $response["uid"] = $session['uid'];
     $response["email"] = $session['email'];
     $response["name"] = $session['name'];
-    echoResponse(200, $session);
+    //$response["role"] =$session['role'];
+    //$response["group_id"] =$session['group_id'];
+    echoResponse(200, $_SESSION);
 });
 
 
@@ -17,7 +20,7 @@ $app->post('/login', function() use ($app) {
     $db = new DbHandler();
     $password = $r->customer->password;
     $email = $r->customer->email;
-    $user = $db->getOneRecord("select uid,name,password,email,created from users where phone='$email' or email='$email'");
+    $user = $db->getOneRecord("select uid,name,password,email,created,role,group_id from users where phone='$email' or email='$email'");
     if ($user != NULL) {
         if(passwordHash::check_password($user['password'],$password)){
         $response['status'] = "success";
@@ -26,12 +29,17 @@ $app->post('/login', function() use ($app) {
         $response['uid'] = $user['uid'];
         $response['email'] = $user['email'];
         $response['createdAt'] = $user['created'];
+        $response['urole'] = $user['role'];
+        $response['group_id'] = $user['group_id'];
         if (!isset($_SESSION)) {
             session_start();
         }
         $_SESSION['uid'] = $user['uid'];
         $_SESSION['email'] = $email;
         $_SESSION['name'] = $user['name'];
+        $_SESSION['role'] = $user['role'];
+        $_SESSION['group_id'] = $user['group_id'];
+       
         } else {
             $response['status'] = "error";
             $response['message'] = 'Login failed. Incorrect credentials';
@@ -75,6 +83,8 @@ $app->post('/signUp', function() use ($app) {
             $_SESSION['phone'] = $phone;
             $_SESSION['name'] = $name;
             $_SESSION['email'] = $email;
+            $_SESSION['role'] = $email;
+            $_SESSION['group_id'] = $email;
             echoResponse(200, $response);
         } else {
             $response["status"] = "error";
@@ -137,8 +147,12 @@ $app->get('/summary', function() {
 
 $app->get('/lastfeedback', function() {
      $db = new DbHandler();
-     $department=$db->getQuery("SELECT * FROM feedbacks where type=2 and is_approve=1 order by id desc LIMIT 3");
-     $agency=$db->getQuery("SELECT * FROM feedbacks where type=3 and is_approve=1 order by id desc LIMIT 3");
+     $department=$db->getQuery("select fb.*,u.name as username,c.name as category from feedbacks as fb 
+left join users as u on fb.usr_approve=u.uid
+left join categories as c on fb.cat_id=c.id where fb.type=2 and is_approve=1 order by fb.id desc LIMIT 3");
+     $agency=$db->getQuery("select fb.*,u.name as username,c.name as category from feedbacks as fb 
+left join users as u on fb.usr_approve=u.uid
+left join categories as c on fb.cat_id=c.id where fb.type=3 and is_approve=1 order by fb.id desc LIMIT 3");
      $response['department']=$department;
      $response['agency']=$agency;
      echoResponse(200, $response);
@@ -199,7 +213,19 @@ $app->post('/getFB', function() use ($app) {
     }
 
     $total_rows=$db->getNumRows("SELECT * FROM feedbacks WHERE is_approve=1 ".$filter);
-    $fbs=$db->getQuery("SELECT * FROM feedbacks WHERE is_approve=1 ".$filter." LIMIT ". $start.",". $itemsPerPage);
+    $fbs=$db->getQuery("select fb.*,u.name as username,c.name as category from feedbacks as fb 
+left join users as u on fb.usr_approve=u.uid
+left join categories as c on fb.cat_id=c.id WHERE is_approve=1 ".$filter." LIMIT ". $start.",". $itemsPerPage);
+
+     if(count($fbs))
+    {
+        for($i=0; $i< count($fbs); $i++)
+        {
+            $fbs[$i]['attach_files']=unserialize($fbs[$i]['attach']);
+        }
+      
+    }
+    
     $response['totalRows']=$total_rows;
     $response['pagedItems']=$fbs;
     echoResponse(200,$response);
@@ -215,6 +241,7 @@ $app->post('/getFBDetail', function() use ($app) {
     $fbs=$db->getOneRecord("select fb.*,u.name as username,c.name as category from feedbacks as fb 
 left join users as u on fb.usr_approve=u.uid
 left join categories as c on fb.cat_id=c.id WHERE fb.id=".$fbid);
+     $fbs['attach_files']=unserialize($fbs['attach']);
     echoResponse(200,$fbs);
 });
 
@@ -222,16 +249,26 @@ $app->post('/getFBComments', function() use ($app) {
     $db = new DbHandler();
     $r = json_decode($app->request->getBody());
     $fbid=$r->fbid;
+    $cpage=$r->cpage;
+    $perPage=$r->perPage;
+    $start=$cpage*$perPage;
     $search="";
     if(isset($r->is_approve))
     {
         $search=" and is_approve=".$r->is_approve;
     }
     
-    $fbs=$db->getQuery("select fbc.*,c.name as username from fbcomment as fbc left join users as c on fbc.usr_approve = c.uid
+    $total_rows=$db->getNumRows("select fbc.*,c.name as username from fbcomment as fbc left join users as c on fbc.usr_approve = c.uid
      WHERE fbc.fid=".$fbid." ".$search);
-    echoResponse(200,$fbs);
+
+    $fbs=$db->getQuery("select fbc.*,c.name as username from fbcomment as fbc left join users as c on fbc.usr_approve = c.uid
+     WHERE fbc.fid=".$fbid." ".$search." LIMIT ".$start.",".$perPage);
+
+    $response['totalRows']=$total_rows;
+    $response['pagedItems']=$fbs;
+    echoResponse(200,$response);
 });
+
 $app->post('/updateFB', function() use ($app) {
     $db = new DbHandler();
     $r = json_decode($app->request->getBody());
@@ -325,6 +362,7 @@ $app->post('/getALLFB', function() use ($app) {
 
     $total_rows=$db->getNumRows("SELECT * FROM feedbacks WHERE 1=1 ".$filter);
     $fbs=$db->getQuery("SELECT * FROM feedbacks WHERE 1=1 ".$filter." LIMIT ". $start.",". $itemsPerPage);
+
     $response['totalRows']=$total_rows;
     $response['pagedItems']=$fbs;
     echoResponse(200,$response);
@@ -357,6 +395,30 @@ $app->post('/usrLikeDislike', function() use ($app) {
         $kq=$db->excuteQuery("UPDATE feedbacks set usr_like=usr_like+1 WHERE id=".$r->item->id);
     }else if($r->task=='dislike'){
         $kq=$db->excuteQuery("UPDATE feedbacks set usr_dislike=usr_dislike+1 WHERE id=".$r->item->id);
+    }
+    if($kq)
+    {
+        $response["status"] = "success";
+        $response["message"] = "Your vote feedback successfully";
+    }else{
+        $response["status"] = "error";
+        $response["message"] = "Failed to vote feedback.";
+    } 
+    echoResponse(201, $response);    
+    
+});
+
+
+$app->post('/usrLikeDislikeCM', function() use ($app) {
+    $response = array();
+    $db = new DbHandler();
+    $r = json_decode($app->request->getBody());
+   
+    if($r->task == 'like')
+    {
+        $kq=$db->excuteQuery("UPDATE fbcomment set usr_like=usr_like+1 WHERE id=".$r->item->id);
+    }else if($r->task=='dislike'){
+        $kq=$db->excuteQuery("UPDATE fbcomment set usr_dislike=usr_dislike+1 WHERE id=".$r->item->id);
     }
     if($kq)
     {

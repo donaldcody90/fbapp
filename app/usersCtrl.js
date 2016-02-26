@@ -1,4 +1,4 @@
-app.controller('usersCtrl', ['$scope', 'Upload', '$timeout','Data', function ($scope, Upload, $timeout,Data) {
+app.controller('usersCtrl', ['$scope', 'Upload', '$timeout','$location','$http','Data', function ($scope, Upload, $timeout, $location, $http,Data) {
    
    $scope.itemsPerPage = 2;
    $scope.currentPage = 0; 

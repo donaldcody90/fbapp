@@ -99,8 +99,8 @@
              <div class="last_feedback by_depart">
                <h3>LATEST FEEDBACK</h3>
                 <div class="feedback-item" ng-repeat="fb in lastfeedbacks.agency">
-                  <a href="http://ucpofcentralaz.org/intranet/all-feedback/?tab=ac_50"><p><strong>{{fb.subject}}</strong></p></a>
-                  <p>{{fb.content | cut:true:100 }}<a href="http://ucpofcentralaz.org/intranet/all-feedback/?tab=ac_50"> Continute</a></p>
+                  <a ng-click="openLightBox(fb)" ng-controller="allfbCtrl as vm"><p><strong>{{fb.subject}}</strong></p></a>
+                  <p>{{fb.content | cut:true:100 }}<a  ng-click="openLightBox(fb)" ng-controller="allfbCtrl as vm"> Continute</a></p>
                   <p>{{fb.name}} - {{fb.create_date|datetime}}</p>
                   <ul class="feedback_toolbar">
                   <li><a class="feedbacklike" ng-click="fbLike(fb)" ><img src="images/like.png"></a> <span id="fblike_count_50" ng-show="fb.usr_like > 0">{{fb.usr_like}}</span> Agree</li>

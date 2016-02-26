@@ -10,7 +10,7 @@ app.controller('authCtrl', function ($scope, $rootScope, $routeParams, $location
         }).then(function (results) {
             Data.toast(results);
             if (results.status == "success") {
-                $location.path('dashboard');
+                $location.path('admin/dashboard');
             }
         });
     };
@@ -21,7 +21,7 @@ app.controller('authCtrl', function ($scope, $rootScope, $routeParams, $location
         }).then(function (results) {
             Data.toast(results);
             if (results.status == "success") {
-                $location.path('dashboard');
+                $location.path('admin/dashboard');
             }
         });
     };
@@ -33,7 +33,7 @@ app.controller('authCtrl', function ($scope, $rootScope, $routeParams, $location
             $rootScope.uid=false;
             $rootScope.name=null;
             $rootScope.email=null;
-            $location.path('login');
+            $location.path('/');
         });
     }
     

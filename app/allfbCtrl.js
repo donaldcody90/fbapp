@@ -1,5 +1,7 @@
-app.controller('allfbCtrl', function ($scope, $rootScope, $routeParams, $location, $http, Data) {
+app.controller('allfbCtrl', function ($scope,$modal,$log, $rootScope, $routeParams, $location, $http, Data) {
     
+
+
     Data.get('getCategories').then(function (results) {
         $scope.categories=results;
     });
@@ -134,4 +136,168 @@ app.controller('allfbCtrl', function ($scope, $rootScope, $routeParams, $locatio
    };
 
 
+  $scope.lbItem=[];
+
+ 
+
+  $scope.openLightBox = function (fbitem) {
+    fbitem.perPage = 1;
+    fbitem.cPage = 0;
+    fbitem.showMore=true;
+  
+
+    Data.post('getFBComments', {
+        fbid:fbitem.id,
+        is_approve:1,
+        perPage:fbitem.perPage,
+        cpage:fbitem.cPage
+     }).then(function (results) {
+        console.log(results);
+        fbitem.totalPage=Math.ceil(results.totalRows/fbitem.perPage) - 1;
+        fbitem.comments=results.pagedItems;       
+    });
+    
+    console.log(fbitem);
+
+    $scope.lbItem=fbitem;
+    var modalInstance = $modal.open({
+      templateUrl: 'partials/modal.html',
+      controller: ModalInstanceCtrl,
+      resolve: {
+        items: function () {
+          return fbitem;
+        },
+      },
+      Data
+    });
+     
+
+    modalInstance.result.then(function (selectedItem) {
+      $scope.selected = selectedItem;
+    }, function () {
+      $log.info('Modal dismissed at: ' + new Date());
+    });
+  };
+
+
+
+ 
+    
+
 });
+
+
+var ModalInstanceCtrl = function ($scope, $modalInstance,items,Data) {
+  //console.log(items);
+  $scope.lbItem = items;
+  /*$scope.selected = {
+    item: $scope.items[0]
+  };*/
+
+  $scope.ok = function () {
+    $modalInstance.close($scope.selected.item);
+  };
+
+  $scope.cancel = function () {
+    $modalInstance.dismiss('cancel');
+  };
+
+  $scope.fbLike = function(item){
+      item=$scope.lbItem;
+       Data.post('usrLikeDislike', {
+            item: item,
+            task:"like"
+        }).then(function (results) {
+            Data.toast(results);
+            if (results.status == "success") {
+                 item.usr_like=parseInt(item.usr_like)+1;
+            }
+      });
+    } 
+ 
+    $scope.fbDisLike = function(item){
+       item=$scope.lbItem;
+       Data.post('usrLikeDislike', {
+            item: item,
+            task:"dislike"
+        }).then(function (results) {
+            Data.toast(results);
+            if (results.status == "success") {
+                 item.usr_dislike=parseInt(item.usr_dislike)+1;
+            }
+      });
+    } 
+
+    $scope.cmLike = function(item){
+    
+       Data.post('usrLikeDislikeCM', {
+            item: item,
+            task:"like"
+        }).then(function (results) {
+            Data.toast(results);
+            if (results.status == "success") {
+                 item.usr_like=parseInt(item.usr_like)+1;
+            }
+      });
+    } 
+ 
+    $scope.cmDisLike = function(item){
+
+       Data.post('usrLikeDislikeCM', {
+            item: item,
+            task:"dislike"
+        }).then(function (results) {
+            Data.toast(results);
+            if (results.status == "success") {
+                 item.usr_dislike=parseInt(item.usr_dislike)+1;
+            }
+      });
+    } 
+
+    $scope.postComment  = function(cm){
+      
+       var formData={
+        'fid':$scope.lbItem.id,
+        'name':cm.name,
+        'comment':cm.comment,
+        'is_approve':0,
+        'usr_approve':0
+       }
+       console.log(formData);
+       Data.post('postComment', {
+            formData:formData
+            }).then(function (results) {
+              console.log(results);
+              if(results.status=="success")
+              {
+                //$scope.fbcomments=$scope.fbcomments.concat(results.fbobject);
+                cm.comment="";
+                cm.name=""
+              }
+              Data.toast(results);
+        });
+
+    }
+
+     $scope.moreCM  = function(){
+      
+        $scope.lbItem.cPage =$scope.lbItem.cPage + 1;
+        Data.post('getFBComments', {
+          fbid:$scope.lbItem.id,
+          is_approve:1,
+          perPage:$scope.lbItem.perPage,
+          cpage:$scope.lbItem.cPage
+       }).then(function (results) {
+          console.log(results);
+         
+          $scope.lbItem.comments = $scope.lbItem.comments.concat(results.pagedItems);  
+      });
+
+         
+    }
+
+
+
+};
+
+

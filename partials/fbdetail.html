@@ -28,14 +28,10 @@
 						<div class="attachment">
 							<p class="grey">2 Attachments</p>
 							<div class="files">
-								<div class="atfile">
-								<a>Example 1#<br/>
-									(1024MB)</a>
+								<div class="atfile" ng-repeat="file in fbitem.attach_files">
+								<a href="attachs/{{file}}">{{file}}</a>
 								</div>
-								<div class="atfile">
-								<a>Example 1#<br/>
-									(1024MB)</a>
-								</div>
+								
 							</div>
 						</div>
 					</div>
@@ -47,8 +43,12 @@
 							<p class="subject bold">{{fbc.name}} - {{fbc.create_date | fulldatetime}}</p>
 							<p>{{fbc.comment}}</p>
 						</div>
-
 					</div>
+				</div>
+				<div class="fbbox">
+					<center>
+						<a ng-show="totalPage > cPage" class="button bt_loadmore" ng-click="moreCM()">LOAD MORE ...</a>
+					</center>
 				</div>
 				<div class="fbbox">
 					<div class="fbleft" class="pull-left">

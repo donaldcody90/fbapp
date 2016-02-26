@@ -1,4 +1,4 @@
-var app = angular.module('fbApp', ['ngRoute', 'ngAnimate', 'toaster','ngFileUpload']);
+var app = angular.module('fbApp', ['ngRoute', 'ngAnimate', 'toaster','ngFileUpload','ui.bootstrap']);
 
 app.config(['$routeProvider',
   function ($routeProvider) {
@@ -7,17 +7,20 @@ app.config(['$routeProvider',
             when('/admin/login', {
                 title: 'Login',
                 templateUrl: 'partials/login.html',
-                controller: 'authCtrl'
+                controller: 'authCtrl',
+                role: '0'
             })
             .when('/logout', {
                 title: 'Logout',
                 templateUrl: 'partials/login.html',
-                controller: 'logoutCtrl'
+                controller: 'logoutCtrl',
+                role: '0'
             })
             .when('/signup', {
                 title: 'Signup',
                 templateUrl: 'partials/signup.html',
-                controller: 'authCtrl'
+                controller: 'authCtrl',
+                role: '0'
             })
             .when('/forgot', {
                 title: 'Forgot',
@@ -28,42 +31,51 @@ app.config(['$routeProvider',
                 title: 'Dashboard',
                 templateUrl: 'partials/dashboard.html',
                 controller: 'dashboardCtrl',
-                role: '1'
+                role: '0',
+                backend:'1'
             })
             .when('/admin/fblist', {
                 title: 'Feedback',
                 templateUrl: 'partials/fblist.html',
-                controller: 'fblistCtrl'
+                controller: 'fblistCtrl',
+                role: '0',
+                backend:'1'
             })
             .when('/admin/fblist/:fbid', {
                 url: '/:fbid',
                 title: 'Feedback detail',
                 templateUrl: 'partials/fbdetail.html',
-                controller: 'fbdetailCtrl'
+                controller: 'fbdetailCtrl',
+                role: '0',                
+                backend:'1'
             })
             .when('/admin/settings', {
                 title: 'Settings',
                 templateUrl: 'partials/setting.html',
                 controller: 'authCtrl',
-                role: '0'
+                role: '0',
+                backend:'1'
             })
             .when('/admin/users', {
                 title: 'users',
                 templateUrl: 'partials/users.html',
                 controller: 'usersCtrl',
-                role: '0'
+                role: '0',
+                backend:'1'
             })
             .when('/admin/users/add', {
                 title: 'users',
                 templateUrl: 'partials/adduser.html',
                 controller: 'usersCtrl',
-                role: '0'
+                role: '0',
+                backend:'1'
             })
              .when('/admin/users/edit/:uid', {
                 title: 'users',
                 templateUrl: 'partials/adduser.html',
                 controller: 'usersCtrl',
-                role: '0'
+                role: '0',
+                backend:'1'
             })
              .when('/admin', {
                 title: 'Login',
@@ -76,31 +88,36 @@ app.config(['$routeProvider',
                 title: 'Department',
                 templateUrl: 'partials/department.html',
                 controller: 'frontendCtrl',
-                role: '0'
+                role: '1',
+                frontend:'1'
             })
             .when('/agency', {
                 title: 'agency',
                 templateUrl: 'partials/agency.html',
                 controller: 'frontendCtrl',
-                role: '0'
+                role: '1',
+                
             })
             .when('/anonymous', {
                 title: 'Anonymous',
                 templateUrl: 'partials/anonymous.html',
                 controller: 'frontendCtrl',
-                role: '0'
+                role: '1',
+                frontend:'1'
             })
              .when('/allfeedbacks', {
                 title: 'All Feedbacks ',
                 templateUrl: 'partials/allfeedbacks.html',
                 controller: 'allfbCtrl',
-                role: '0'
+                role: '1',
+                frontend:'1'
             })
              .when('/', {
                 title: 'Home',
                 templateUrl: 'partials/anonymous.html',
                 controller: 'frontendCtrl',
-                role: '0'
+                role: '1',
+                frontend:'1'
             })
             .otherwise({
                 redirectTo: '/'
@@ -110,14 +127,19 @@ app.config(['$routeProvider',
         $rootScope.$on("$routeChangeStart", function (event, next, current) {
              
             $rootScope.authenticated = false;
-
-
+            
+            $rootScope.role = 0;
+            $rootScope.backend=next.$$route.backend;
+            console.log($rootScope.frontend);
             Data.get('session').then(function (results) {
                 if (results.uid) {
+                    console.log(results);
                     $rootScope.authenticated = true;
                     $rootScope.uid = results.uid;
                     $rootScope.name = results.name;
                     $rootScope.email = results.email;
+                    $rootScope.role  = results.role;
+                    $rootScope.group_id  = results.group_id;
                 } else {
                     var nextUrl = next.$$route.originalPath;
                     console.log(nextUrl);
