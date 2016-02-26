@@ -1,0 +1,115 @@
+<div class="row">
+	<div class="filter">
+		<div class="col-md-1 col-text-search">
+			<span class="text_fillter">Search</span>
+		</div>
+		
+		<div class="col-md-3 col-search pull-right">
+			<form   ng-submit="onSearchSubmit()">
+				<input type="text" class="form-control" placeholder="Search..." name="keyword" ng-model="inp.keyword"  />
+			</form>
+		</div>
+	</div>
+</div>
+<form name="signupForm" class="form-horizontal" role="form">
+<div class="row">
+	<div class="bar-header clearfix">
+		<div class="col-md-12">
+			<h4 class="pull-left">Edit User</h4>
+			<div class="pull-right">
+				<div class="cs_button">
+					<a class="normal_button" href="#admin/users">Cancel</a>
+					
+					<button type="submit" class="normal_button" data-ng-disabled="signupForm.$invalid" ng-click="signUp(signup)" />Save</button>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+<div class="row user_info_form">
+	
+			<div class="col-md-3">
+				<div class="row">
+					<div class="upload_box">
+						<div class="upload_profile">
+							<img ng-show="profile_image" src="attachs/{{profile_image}}" />
+						</div>
+						<button ngf-select="uploadProfile($files, $invalidFiles)" multiple
+					          accept="image/*" ngf-max-height="1000" ngf-max-size="1MB">
+					      Add Photo</button>
+						<p>A Profile image of the person, it's
+				best if the picture has the same
+				length and height</p>
+					</div>
+				</div>
+			</div>
+
+			<div class="col-md-9">
+				<h4 class="uheader">User Information</h4>
+
+				<div class="form-group">
+					<label class="col-left">Full Name</label>
+					<div class="col-right">
+						<input type="text" class="form-control" placeholder="Name" name="name" 
+						ng-model="signup.name" required  />
+						<span ng-show="signupForm.name.$error.name" class="help-inline">Name required field</span> 
+					</div>
+				</div>
+
+				<div class="form-group">
+					<label class="col-left">Email</label>
+					<div class="col-right">
+						<input type="text" class="form-control" placeholder="Email" ng-model="signup.email" required />
+						<span ng-show="signupForm.email.$error.email" class="help-inline">Email is not valid</span> 
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-left">Password</label>
+					<div class="col-right">
+						<input type="password" class="form-control" placeholder="Password" name="password" ng-model="signup.password" required />
+						<span ng-show="signupForm.password.$error.password" class="help-inline">Password required field</span> 
+					</div>
+				</div>
+
+				<div class="form-group">
+					<label class="col-left">Title</label>
+					<div class="col-right">
+						<input type="text" class="form-control" placeholder="Title" name="title" ng-model="signup.title" required />
+					</div>
+				</div>
+
+				<div class="form-group">
+					<label class="col-left">Phone No.</label>
+					<div class="col-right">
+						<input type="text" class="form-control" placeholder="Phone" name="phone" ng-model="signup.phone" required />
+					</div>
+				</div>
+
+				<div class="form-group">
+					<label class="col-left">Role</label>
+					<div class="col-right">
+						<select class="form-control" ng-model="signup.role" ng-init="signup.role=0">
+							<option value="0">Admin</option>
+							<option value="1">Manager</option>
+						</select>
+					</div>
+				</div>
+
+				<div class="form-group">
+					<label class="col-left">Group</label>
+					<div class="col-right">
+						<select class="form-control"  ng-model="signup.group_id" ng-init="signup.group_id=0">
+							<option value="0">Anonymous</option>
+							<option value="0">Departments</option>
+							<option value="{{cat.id}}" ng-repeat="cat in categories.department">--- {{cat.name}}</option>
+							<option value="0">Agency Global</option>
+							<option  value="{{cat.id}}" ng-repeat="cat in categories.agency">--- {{cat.name}}</option>
+						</select>
+					</div>
+				</div>
+				
+
+			</div>
+
+</div>
+	</form>

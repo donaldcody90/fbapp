@@ -56,7 +56,7 @@
 						</div>
 			      		<img src="images/icon.png">
 			      		<div class="fb-info">
-			      			<a ui-sref="fblist.detail({ id: 1 })"><p><span class="fb-name">{{fb.name ? fb.name:"Anonymous"}}</span> - {{fb.subject}}</p></a>
+			      			<a ng-href="#admin/fblist/{{fb.id}}" ><p><span class="fb-name">{{fb.name ? fb.name:"Anonymous"}}</span> - {{fb.subject}}</p></a>
 			      			<p class="datetime">{{fb.create_date | fulldatetime}}</p>
 			      		</div>
 			      		<div class="fb-uinfo">

@@ -39,7 +39,7 @@
   			</div>
 		  </div>
 		</div>
-
+    <p>{{role}}</p>
     <div class="container" ng-if="authenticated">
       <div class="row">
         <div class="admin_menu">
@@ -82,5 +82,7 @@
   <script src="app/frontendCtrl.js"></script>
   <script src="app/allfbCtrl.js"></script>
   <script src="app/fblistCtrl.js"></script>
+  <script src="app/fbdetailCtrl.js"></script>
+  <script src="app/usersCtrl.js"></script>
 </html>
 

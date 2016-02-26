@@ -690,4 +690,194 @@ a.disabled{
 .atfile{
 	background: #eeeeee;
 	float: left;
+	margin-right: 10px;
+	padding: 10px 20px;
+	color: #adb1bd;
+	border: 1px solid #b9b9b9;
+	border-radius: 2px;
+}
+.atfile a{
+	color: #adb1bd !important;
+	text-decoration: none !important;
+}
+.box_setting h4{
+	font-size: 16px !important;
+	font-family: Roboto;
+	font-weight: normal;
+	margin:20px 0px;
+}
+.box_setting a{
+	margin-right: 10px;
+}
+
+.list_table .trow {
+	overflow: hidden;
+	border-bottom:1px solid #eeeeee;
+	font-size: 12px;
+	font-family: Roboto;
+}
+.list_table .trow:hover{
+	background: #f8f8e6;
+}
+.list_table .trow p{
+	margin: 0px;
+}
+.list_table .trow .col1{
+	color: #00718f;
+}
+.list_table .trow .col1 a{
+	color: #00718f !important;
+	text-decoration: none !important;
+}
+.list_table .trow .col1 img{
+	margin-right:5px; 
+}
+.list_table .trow .col{
+	float: left;
+	padding: 10px;
+}
+.col1 {
+	width: 30%;
+}
+.col2 {
+	width: 40%;
+}
+.col3 {
+	width: 20%;
+}
+.col4 {
+	width: 10%;
+}
+.list_table{
+	border-top: 10px solid #eeeeee;
+	border-left:1px solid #eeeeee;
+	border-right:1px solid #eeeeee;
+	border-bottom:1px solid #eeeeee;
+	border-radius: 5px;
+
+}
+.control_bar {
+	margin-bottom: 10px
+
+}
+.control_bar span{
+	float: left;
+	margin-top: 6px;
+}
+.control_bar select{
+	float: left;
+	width: auto !important;
+	border: none;
+    background: none;
+    box-shadow: none !important;
+    color: #000;
+    font-size: 14px;
+}
+.add_new{
+	font-size:12px;
+	color: #00718f;
+	text-decoration: none;
+	margin-top: 10px;
+	float: left;
+}
+.add_new img{
+	margin-right: 5px;
+}
+a.small_button{
+	background: #fff;
+    border: 1px solid #eeeeee;
+    margin: 0;
+    padding: 2px 4px;
+    border-radius: 2px;
+    font-size: 10px;
+    color: #000;
+    text-decoration: none;
+}
+.form-group{
+	overflow: hidden;
+}
+.form-group .col-left{
+	float: left;
+	font-size: 12px;
+	color: #666666;
+	font-weight: normal;
+	margin-right: 15px;
+	margin-top: 5px;
+	width:120px;
+    text-align: right;
+}
+.form-group .col-right{
+	float: left;
+	font-size: 12px;
+	color: #666666;
+	font-weight: normal;
+	width: 40%;
+}
+.form-group .col-right input{
+	background: #f6f6f6;
+    border: 1px solid #e9e9e9;
+    padding: 5px 10px !important;
+    height: auto !important;
+    font-size: 12px;
+    font-family: Roboto;
+    font-weight: normal;
+}
+.bar-header{
+	border-bottom: 1px solid #ededed;
+	padding: 15px 0px;
+}
+.bar-header h4{
+	font-size: 16px;
+	color: #989898;
+	font-weight: normal !important;
+	font-family: Roboto;
+
+}
+.bar-header .normal_button{
+	background: #f6f6f6;
+	color: #666666;
+	font-size: 12px;
+	border-radius: 3px;
+	padding:5px 10px;
+	border:1px solid #cfcfcf;
+	text-decoration: none !important;
+}
+
+.cs_button{
+	margin-top: 7px;
+}
+
+.col-right select{
+	font-size: 12px;
+    font-family: Roboto;
+    background: #f6f6f6;
+    width: auto !important;
+}
+
+.upload_profile{
+	width:150px;
+	height:150px;
+	background: #f1f1f1;
+	border-radius: 4px;
+}
+.user_info_form{
+	margin: 20px 0px;
+}
+.upload_box{
+	font-family: Roboto;
+	font-size: 12px;
+}
+.upload_box button{
+	background: transparent;
+    border: none !important;
+    color: #368fa7;
+    text-align: left;
+    padding: 0;
+    margin: 10px 0px;
+}
+.uheader{
+	margin-bottom: 20px;
+}
+.upload_profile img{
+	max-width: 100%;
 }

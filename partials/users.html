@@ -1,0 +1,53 @@
+
+<div class="row">
+	<div class="filter">
+		<div class="col-md-1 col-text-search">
+			<span class="text_fillter">Search</span>
+		</div>
+		
+		<div class="col-md-3 col-search pull-right">
+			<form   ng-submit="onSearchSubmit()">
+				<input type="text" class="form-control" placeholder="Search..." name="keyword" ng-model="inp.keyword"  />
+			</form>
+		</div>
+	</div>
+</div>
+
+<div class="row">
+	<div class="col-md-12">
+		<div class="box_setting">
+			<h4>Settings Users</h4>
+			<div class="control_bar clearfix">
+				<div class="pull-left">
+					<span class="black">Sorted by:</span>
+					<select class="form-control">
+						<option>Name</option>
+						<option>Email</option>
+						<option>Latest Login</option>
+					</select>
+				</div>
+				<div class="pull-right">
+					<a href="#admin/users/add" class="add_new"><img src="images/plus.png" />Add new user</a>
+				</div>
+			</div>
+			<div class="list_table">
+				<div class="trow" ng-repeat="user in pagedItems">
+					<div class="col1 col">
+						<a href="#admin/users/edit/{{user.uid}}"><img src="images/icon.png">{{user.name}}</a>
+					</div>
+					<div class="col2 col">
+						<p class="email">{{user.email}}</p>
+						<p class="phone">{{user.phone}}</p>
+					</div>
+					<div class="col3 col">
+						{{user.last_login | datetime}}
+					</div>
+					<div class="col4 col">
+						<a href="#admin/users/edit/{{user.uid}}" class="small_button">Edit</a>
+						<a ng-click="deleteUser(user)" class="small_button" ><img src="images/trash.png" /></a>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>

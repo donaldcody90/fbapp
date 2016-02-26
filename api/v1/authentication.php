@@ -8,6 +8,7 @@ $app->get('/session', function() {
     echoResponse(200, $session);
 });
 
+
 $app->post('/login', function() use ($app) {
     require_once 'passwordHash.php';
     $r = json_decode($app->request->getBody());
@@ -50,13 +51,18 @@ $app->post('/signUp', function() use ($app) {
     $phone = $r->customer->phone;
     $name = $r->customer->name;
     $email = $r->customer->email;
-    $address = $r->customer->address;
+    $title = $r->customer->title;
     $password = $r->customer->password;
+    $role=$r->customer->role;
+    $group_id=$r->customer->group_id;
+    $r->customer->profile_image=$r->profile_image;
+
+    $r->customer->last_login=date('Y-m-d H:i:s');
     $isUserExists = $db->getOneRecord("select 1 from users where phone='$phone' or email='$email'");
     if(!$isUserExists){
         $r->customer->password = passwordHash::hash($password);
         $tabble_name = "users";
-        $column_names = array('phone', 'name', 'email', 'password', 'city', 'address');
+        $column_names = array('phone', 'name', 'email', 'password', 'title','last_login','role','group_id','profile_image');
         $result = $db->insertIntoTable($r->customer, $column_names, $tabble_name);
         if ($result != NULL) {
             $response["status"] = "success";
@@ -89,6 +95,23 @@ $app->get('/logout', function() {
     echoResponse(200, $response);
 });
 
+$app->post('/deleteUser', function() use ($app) {
+    $db = new DbHandler();
+    $r = json_decode($app->request->getBody());
+    $response = array();
+    $sql="DELETE FROM users WHERE uid=".$r->uid;
+    $kq=$db->excuteQuery($sql);
+    if($kq)
+    {
+        $response["status"] = "success";
+        $response["message"] = "Deleted successfully";
+    }else{
+         $response["status"] = "error";
+          $response["message"] = "Failed to delete user. Please try again";
+    }
+    
+    echoResponse(200, $response);
+});
 // Recent activity 
 $app->get('/recent', function() {
     $db = new DbHandler();
@@ -183,6 +206,94 @@ $app->post('/getFB', function() use ($app) {
 });
 
 
+
+$app->post('/getFBDetail', function() use ($app) {
+    $db = new DbHandler();
+    $r = json_decode($app->request->getBody());
+    $fbid=$r->fbid;
+  
+    $fbs=$db->getOneRecord("select fb.*,u.name as username,c.name as category from feedbacks as fb 
+left join users as u on fb.usr_approve=u.uid
+left join categories as c on fb.cat_id=c.id WHERE fb.id=".$fbid);
+    echoResponse(200,$fbs);
+});
+
+$app->post('/getFBComments', function() use ($app) {
+    $db = new DbHandler();
+    $r = json_decode($app->request->getBody());
+    $fbid=$r->fbid;
+    $search="";
+    if(isset($r->is_approve))
+    {
+        $search=" and is_approve=".$r->is_approve;
+    }
+    
+    $fbs=$db->getQuery("select fbc.*,c.name as username from fbcomment as fbc left join users as c on fbc.usr_approve = c.uid
+     WHERE fbc.fid=".$fbid." ".$search);
+    echoResponse(200,$fbs);
+});
+$app->post('/updateFB', function() use ($app) {
+    $db = new DbHandler();
+    $r = json_decode($app->request->getBody());
+    $fbid=$r->fbid;
+    $is_approve=$r->is_approve;
+    $allow_comment=$r->allow_comment;
+    $usr_approve=$r->usr_approve;
+    $datetime=date("Y-m-d h:i:s");
+
+    $sql="UPDATE feedbacks set is_approve='".$is_approve."', allow_comment='".$allow_comment."', usr_approve='".$usr_approve."', approve_date='".$datetime."'
+    WHERE id=".$fbid;
+    $kq=$db->excuteQuery($sql);
+    $response["status"] = "success";
+    $response["message"] = "Update feedback successfully";
+    echoResponse(200, $response);
+});
+
+$app->post('/postComment', function() use ($app) {
+    $db = new DbHandler();
+    $r = json_decode($app->request->getBody());
+   
+    $r->formData->create_date=date("Y-m-d h:i:s");
+    $r->formData->approve_date=date("Y-m-d h:i:s");
+    $tabble_name="fbcomment";
+    
+    $column_names=array('fid','name','comment','create_date','is_approve','usr_approve','approve_date');
+    $require_fieds=array('fid', 'name','comment');
+
+    verifyRequiredParams($require_fieds,$r->formData);
+
+     $result = $db->insertIntoTable($r->formData, $column_names, $tabble_name);
+   
+
+    if ($result != NULL) {
+
+            $r->formData->id=$result;
+            $response["fbobject"] =  $r->formData;
+            $response["status"] = "success";
+            $response["message"] = "Your comment created successfully";
+          
+            echoResponse(200, $response);
+        } else {
+            $response["status"] = "error";
+            $response["message"] = "Failed to create comment. Please try again";
+            echoResponse(201, $response);
+    }
+});
+
+$app->post('/getUsers', function() use ($app){
+    $db = new DbHandler();
+    $r = json_decode($app->request->getBody());
+    $currentPage=$r->currentPage;
+    $itemsPerPage=$r->itemsPerPage;
+    $start=$currentPage* $itemsPerPage;
+    $filter="";
+    $order_by=" order by name asc";
+    $total_rows=$db->getNumRows("SELECT * FROM users WHERE 1=1 ".$filter);
+    $fbs=$db->getQuery("SELECT * FROM users WHERE 1=1 ".$filter. $order_by." LIMIT ". $start.",". $itemsPerPage);
+    $response['totalRows']=$total_rows;
+    $response['pagedItems']=$fbs;
+    echoResponse(200,$response);
+});
 
 $app->post('/getALLFB', function() use ($app) {
     $db = new DbHandler();

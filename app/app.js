@@ -35,11 +35,35 @@ app.config(['$routeProvider',
                 templateUrl: 'partials/fblist.html',
                 controller: 'fblistCtrl'
             })
-            .when('/admin/detail', {
-                url: '/:id',
+            .when('/admin/fblist/:fbid', {
+                url: '/:fbid',
                 title: 'Feedback detail',
                 templateUrl: 'partials/fbdetail.html',
-                controller: 'fblistCtrl'
+                controller: 'fbdetailCtrl'
+            })
+            .when('/admin/settings', {
+                title: 'Settings',
+                templateUrl: 'partials/setting.html',
+                controller: 'authCtrl',
+                role: '0'
+            })
+            .when('/admin/users', {
+                title: 'users',
+                templateUrl: 'partials/users.html',
+                controller: 'usersCtrl',
+                role: '0'
+            })
+            .when('/admin/users/add', {
+                title: 'users',
+                templateUrl: 'partials/adduser.html',
+                controller: 'usersCtrl',
+                role: '0'
+            })
+             .when('/admin/users/edit/:uid', {
+                title: 'users',
+                templateUrl: 'partials/adduser.html',
+                controller: 'usersCtrl',
+                role: '0'
             })
              .when('/admin', {
                 title: 'Login',

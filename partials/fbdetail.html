@@ -20,9 +20,9 @@
 					<img src="images/icon.png" class="pull-left" />
 					<div class="fbleft" class="pull-left">
 						<div class="fbcontent grey-gold border">
-							<p class="subject">Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
-							<p class="username">by Maaby Diaz R.</p>
-							<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque eleifend sapien nec commodo rutrum. Proin dolor ipsum, cursus vel auctor nec, sagittis ut erat. Vivamus aliquam at mauris et scelerisque. Fusce efficitur auctor felis. Nulla maximus arcu eu mauris rutrum hendrerit. Proin facilisis hendrerit felis, non commodo tellus dictum eget.</p>
+							<p class="subject">{{fbitem.subject}}</p>
+							<p class="username">by {{fbitem.name}}</p>
+							<p>{{fbitem.content}}</p>
 						</div>
 
 						<div class="attachment">
@@ -40,21 +40,22 @@
 						</div>
 					</div>
 				</div>
-				<div class="fbbox">
+				<div class="fbbox"  ng-repeat="fbc in fbcomments">
 					<img src="images/icon.png" class="pull-left" />	
 					<div class="fbleft" class="pull-left">
 						<div class="fbcontent grey-gold border">
-							<p class="subject bold">Admin Name - Comment 7 days ago. (Tue, Jan 26 at 5:14 PM)</p>
-							<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque eleifend sapien nec commodo rutrum. Proin dolor ipsum, cursus vel auctor nec, sagittis ut erat. Vivamus aliquam at mauris et scelerisque. Fusce efficitur auctor felis. Nulla maximus arcu eu mauris rutrum hendrerit. Proin facilisis hendrerit felis, non commodo tellus dictum eget.</p>
+							<p class="subject bold">{{fbc.name}} - {{fbc.create_date | fulldatetime}}</p>
+							<p>{{fbc.comment}}</p>
 						</div>
+
 					</div>
 				</div>
 				<div class="fbbox">
 					<div class="fbleft" class="pull-left">
 						<div class="fbcontent grey-gold border">
 							<p class="black">Add a comment</p>
-							<textarea class="form-control fbinput"></textarea>
-							<button class="button bt-green pull-right">POST</button>
+							<textarea required ng-model="comment" class="form-control fbinput"></textarea>
+							<button ng-click="postComment()" class="button bt-green pull-right">POST</button>
 						</div>
 					</div>
 				</div>
@@ -66,29 +67,30 @@
 				<div class="uinfo">
 					<img src="images/icon.png" class="pull-left" />
 					<div class="pull-left">
-						<p class="uname">Donald Cody</p>
-						<p class="datetime">Monday, Jan 26 @ 1:17 PM</p>
-						<p class="category">Category Name</p>
+						<p class="uname">{{fbitem.name}}</p>
+						<p class="datetime">{{fbitem.create_date | fulldatetime}}</p>
+						<p class="category">{{fbitem.catId}}</p>
 					</div>
 				</div>
-				<div class="finfo">
+				<div class="finfo" ng-if="fbitem.usr_approve">
 					<p class="title">Published on:</p>
-					<p class"datetime">Monday, Jan 26 @ 1:17 PM</p>	
+					<p class"datetime">{{fbitem.approve_date | fulldatetime}}</p>	
 					<p class="title">Published by:</p>
-					<p class"datetime">Donald Cody</p>	
-
+					<p class"datetime">{{fbitem.username}}</p>	
+				</div>
+				<div class="finfo">
 					<p class="title">Publish</p>
-					<select class="form-control">
+					<select class="form-control" ng-model="fbitem.is_approve" >
 						<option value="1">Yes</option>
 						<option value="0">No</option>
 					</select>
 
 					<p class="title">Allow Comments</p>
-					<select class="form-control">
+					<select class="form-control" ng-model="fbitem.allow_comment">
 						<option value="1">Yes</option>
 						<option value="0">No</option>
 					</select>
-					<button class="button bt-green">Update</button>
+					<button ng-click="update()" class="button bt-green">Update</button>
 				</div>
 			
        		 </div>
