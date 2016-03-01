@@ -47,7 +47,7 @@
       <div class="allfeedbacks">
       	<h3>All Feedback Submitted</h3>
       	<div class="fb-item"  ng-repeat="fb in pagedItems">
-      		<img src="images/icon.png">
+      		<img src="images/name/{{fb.name | iconname}}">
       		<div class="fb-info">
       			<a ng-click="openLightBox(fb)"><p>{{fb.subject}}</p></a>
       			<p class="datetime">submitted {{fb.create_date | datetime}}  by {{fb.name ? fb.name:"Anonymous"}}</p>

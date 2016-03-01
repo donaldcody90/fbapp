@@ -86,5 +86,6 @@
   <script src="app/fblistCtrl.js"></script>
   <script src="app/fbdetailCtrl.js"></script>
   <script src="app/usersCtrl.js"></script>
+  <script src="app/groupsCtrl.js"></script>
 </html>
 

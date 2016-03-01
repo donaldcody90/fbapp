@@ -105,6 +105,96 @@ $app->get('/logout', function() {
     echoResponse(200, $response);
 });
 
+$app->post('/changePassword', function() use ($app) {
+    require_once 'passwordHash.php';
+    $db = new DbHandler();
+    $r = json_decode($app->request->getBody());
+    $uid=$r->uid;
+    $newPass=$r->newPass;
+    $currentPass=$r->currentPass;
+    $hashPass=$r->hashPass;
+    $confirmPass=$r->confirmPass;
+    $checkPass = passwordHash::check_password($hashPass,$currentPass);
+    
+    if(!$checkPass)
+    {
+        $response["status"] = "error";
+        $response["message"] = "Current Password incorrect. Please try again"; 
+
+    }else{
+
+
+        $newHashPass = passwordHash::hash($newPass);
+
+        $response = array();
+        $sql="UPDATE users set password='".$newHashPass."' WHERE uid=".$uid;
+        $kq=$db->excuteQuery($sql);
+        if($kq)
+        {
+            $response["status"] = "success";
+            $response["message"] = "Upate user info successfully";
+        }else{
+             $response["status"] = "error";
+              $response["message"] = "Failed to update user info. Please try again";
+        }
+    }
+    echoResponse(200, $response);
+});
+
+$app->post('/updateUser', function() use ($app) {
+    $db = new DbHandler();
+    $r = json_decode($app->request->getBody());
+    $response = array();
+    $user=$r->user;
+    $uid=$r->uid;
+
+    $sql="UPDATE users set
+            name='".$user->name."',
+            title='".$user->title."',
+            role='".$user->role."',
+            group_id='".$user->group_id."',
+            profile_image='".$user->profile_image."'
+     WHERE uid=".$uid;
+    $kq=$db->excuteQuery($sql);
+    if($kq)
+    {
+        $response["status"] = "success";
+        $response["message"] = "Updated user info successfully";
+    }else{
+         $response["status"] = "error";
+          $response["message"] = "Failed to update user info. Please try again";
+    }
+    
+    echoResponse(200, $response);
+});
+
+
+$app->post('/updateGroup', function() use ($app) {
+    $db = new DbHandler();
+    $r = json_decode($app->request->getBody());
+    $response = array();
+    $group=$r->group;
+    $gid=$r->gid;
+
+    $sql="UPDATE categories set
+            name='".$group->name."',
+            type='".$group->type."'
+     WHERE id=".$gid;
+    $kq=$db->excuteQuery($sql);
+    if($kq)
+    {
+        $response["status"] = "success";
+        $response["message"] = "Updated group info successfully";
+    }else{
+         $response["status"] = "error";
+          $response["message"] = "Failed to update group info. Please try again";
+    }
+    
+    echoResponse(200, $response);
+});
+
+
+
 $app->post('/deleteUser', function() use ($app) {
     $db = new DbHandler();
     $r = json_decode($app->request->getBody());
@@ -122,6 +212,54 @@ $app->post('/deleteUser', function() use ($app) {
     
     echoResponse(200, $response);
 });
+
+$app->post('/addGroup', function() use ($app) {
+    $db = new DbHandler();
+    $r = json_decode($app->request->getBody());
+    $response = array();
+
+    $tabble_name="categories";
+    
+    $column_names=array('name','type');
+    $require_fieds=array('name', 'type');
+
+    verifyRequiredParams($require_fieds,$r->formData);
+
+    $result = $db->insertIntoTable($r->formData, $column_names, $tabble_name);
+   
+    if ($result != NULL) {
+
+            $r->formData->id=$result;
+            $response["fbobject"] =  $r->formData;
+            $response["status"] = "success";
+            $response["message"] = "Group created successfully";
+          
+            echoResponse(200, $response);
+        } else {
+            $response["status"] = "error";
+            $response["message"] = "Failed to create group. Please try again";
+            echoResponse(201, $response);
+    }
+});
+
+$app->post('/deleteGroup', function() use ($app) {
+    $db = new DbHandler();
+    $r = json_decode($app->request->getBody());
+    $response = array();
+    $sql="DELETE FROM categories WHERE id=".$r->gid;
+    $kq=$db->excuteQuery($sql);
+    if($kq)
+    {
+        $response["status"] = "success";
+        $response["message"] = "Deleted successfully";
+    }else{
+         $response["status"] = "error";
+          $response["message"] = "Failed to delete group. Please try again";
+    }
+    
+    echoResponse(200, $response);
+});
+
 // Recent activity 
 $app->get('/recent', function() {
     $db = new DbHandler();
@@ -282,6 +420,35 @@ $app->post('/updateFB', function() use ($app) {
     WHERE id=".$fbid;
     $kq=$db->excuteQuery($sql);
     $response["status"] = "success";
+    $response["message"] = "Publish feedback successfully";
+    echoResponse(200, $response);
+});
+
+$app->post('/updateListFB', function() use ($app) {
+    $db = new DbHandler();
+    $r = json_decode($app->request->getBody());
+    $fbids=$r->fbids;
+    $is_approve=$r->is_approve;
+    $usr_approve=$r->usr_approve;
+    $datetime=date("Y-m-d h:i:s");
+    $id_in_string=implode(",",$fbids);
+    $sql="UPDATE feedbacks set is_approve='".$is_approve."', usr_approve='".$usr_approve."', approve_date='".$datetime."'
+    WHERE id in (".$id_in_string.")";
+
+    $kq=$db->excuteQuery($sql);
+    $response["status"] = "success";
+    $response["message"] = "Update feedback successfully";
+    echoResponse(200, $response);
+});
+
+$app->post('/deleteListFB', function() use ($app) {
+    $db = new DbHandler();
+    $r = json_decode($app->request->getBody());
+    $fbids=$r->fbids;
+    $id_in_string=implode(",",$fbids);
+    $sql="DELETE FROM feedbacks WHERE id in (".$id_in_string.")";
+    $kq=$db->excuteQuery($sql);
+    $response["status"] = "success";
     $response["message"] = "Update feedback successfully";
     echoResponse(200, $response);
 });
@@ -330,6 +497,22 @@ $app->post('/getUsers', function() use ($app){
     $response['totalRows']=$total_rows;
     $response['pagedItems']=$fbs;
     echoResponse(200,$response);
+});
+
+$app->post('/detailUser', function() use ($app){
+    $db = new DbHandler();
+    $r = json_decode($app->request->getBody());
+    $uid=$r->uid;
+    $user=$db->getOneRecord("SELECT * FROM users WHERE uid=".$uid);
+    echoResponse(200,$user);
+});
+
+$app->post('/detailGroup', function() use ($app){
+    $db = new DbHandler();
+    $r = json_decode($app->request->getBody());
+    $gid=$r->gid;
+    $group=$db->getOneRecord("SELECT * FROM categories WHERE id=".$gid);
+    echoResponse(200,$group);
 });
 
 $app->post('/getALLFB', function() use ($app) {

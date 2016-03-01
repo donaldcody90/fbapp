@@ -1,0 +1,58 @@
+<div class="row">
+	<div class="filter">
+		<div class="col-md-1 col-text-search">
+			<span class="text_fillter">Search</span>
+		</div>
+		
+		<div class="col-md-3 col-search pull-right">
+			<form   ng-submit="onSearchSubmit()">
+				<input type="text" class="form-control" placeholder="Search..." name="keyword" ng-model="inp.keyword"  />
+			</form>
+		</div>
+	</div>
+</div>
+<form name="signupForm" class="form-horizontal" role="form">
+<div class="row">
+	<div class="bar-header clearfix">
+		<div class="col-md-12">
+			<h4 class="pull-left">Add Group</h4>
+			<div class="pull-right">
+				<div class="cs_button">
+					<a class="normal_button" href="#admin/groups">Cancel</a>
+					
+					<button type="submit" class="normal_button" data-ng-disabled="signupForm.$invalid" ng-click="addGroup(category)" />Save</button>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+<div class="row user_info_form">
+			<div class="col-md-9">
+				<h4 class="uheader">Group Information</h4>
+
+				<div class="form-group">
+					<label class="col-left">Name</label>
+					<div class="col-right">
+						<input type="text" class="form-control" placeholder="Name" name="name" 
+						ng-model="category.name" required  />
+						<span ng-show="signupForm.name.$error.name" class="help-inline">Name required field</span> 
+					</div>
+				</div>
+
+				<div class="form-group">
+					<label class="col-left">Parent Group</label>
+					<div class="col-right">
+						<select class="form-control"  ng-model="category.type" ng-init="category.type=2">
+					
+							<option value="2">Departments</option>
+						
+							<option value="3">Agency Global</option>
+							
+						</select>
+					</div>
+				</div>
+				
+			</div>
+
+</div>
+</form>

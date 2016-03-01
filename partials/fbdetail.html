@@ -17,7 +17,7 @@
 		<div class="col-md-8">
 			<div class="fbdetail">
 				<div class="fbbox">
-					<img src="images/icon.png" class="pull-left" />
+					<img src="images/name/{{fbitem.name | iconname}}" class="pull-left">
 					<div class="fbleft" class="pull-left">
 						<div class="fbcontent grey-gold border">
 							<p class="subject">{{fbitem.subject}}</p>
@@ -37,7 +37,7 @@
 					</div>
 				</div>
 				<div class="fbbox"  ng-repeat="fbc in fbcomments">
-					<img src="images/icon.png" class="pull-left" />	
+					<img src="images/name/{{fbc.name | iconname}}" class="pull-left">
 					<div class="fbleft" class="pull-left">
 						<div class="fbcontent grey-gold border">
 							<p class="subject bold">{{fbc.name}} - {{fbc.create_date | fulldatetime}}</p>
@@ -65,7 +65,7 @@
 			<div class="col-fb-info">
 				<h4>Feedback Info</h4>
 				<div class="uinfo">
-					<img src="images/icon.png" class="pull-left" />
+					<img src="images/name/{{fbitem.name | iconname}}" class="pull-left" >
 					<div class="pull-left">
 						<p class="uname">{{fbitem.name}}</p>
 						<p class="datetime">{{fbitem.create_date | fulldatetime}}</p>

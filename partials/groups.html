@@ -1,0 +1,92 @@
+<div class="row">
+	<div class="filter">
+		<div class="col-md-1 col-text-search">
+			<span class="text_fillter">Search</span>
+		</div>
+		
+		<div class="col-md-3 col-search pull-right">
+			<form   ng-submit="onSearchSubmit()">
+				<input type="text" class="form-control" placeholder="Search..." name="keyword" ng-model="inp.keyword"  />
+			</form>
+		</div>
+	</div>
+</div>
+
+
+<div class="row">
+	<div class="col-md-12">
+		<div class="box_setting">
+			<h4>Groups</h4>
+			<div class="control_bar clearfix">
+				<div class="pull-left">
+					<span class="black">Sorted by:</span>
+					<select class="form-control">
+						<option>Name</option>
+						<option>Email</option>
+						<option>Latest Login</option>
+					</select>
+				</div>
+				<div class="pull-right">
+					<a href="#admin/groups/add" class="add_new"><img src="images/plus.png" />Add new group</a>
+				</div>
+			</div>
+			<div class="list_table group_table">
+				<div class="trow">
+					<div class="col1 col">
+						<a href="#admin/groups/edit/{{user.uid}}">Anonymous</a>
+					</div>
+					
+					<div class="col4 col">
+						<!--<a href="#admin/users/edit/{{user.uid}}" class="small_button">Edit</a>
+						<a ng-click="deleteUser(user)" class="small_button" ><img src="images/trash.png" /></a>-->
+					</div>
+				</div>
+				<div class="trow">
+					<div class="col1 col">
+						<a href="#admin/groups/edit/{{group.id}}">Departments</a>
+					</div>
+					
+					<div class="col4 col">
+						<a href="#admin/groups/add" class="small_button">Add</a>
+					</div>
+				</div>
+
+				<div class="trow" ng-repeat="cat in categories.department">
+					<div class="col1 col indent">
+						<a href="#admin/groups/edit/{{cat.id}}">
+							{{cat.name}}
+						</a>
+					</div>
+					
+					<div class="col4 col ">
+						<a href="#admin/groups/edit/{{cat.id}}" class="small_button">Edit</a>
+						<a ng-click="deleteGroup(cat)" class="small_button" ><img src="images/trash.png" /></a>
+					</div>
+				</div>
+				<div class="trow">
+					<div class="col1 col">
+						<a href="#admin/groups/edit/{{user.uid}}">Agency Goal</a>
+					</div>
+					
+					<div class="col4 col">
+						<a href="#admin/groups/add" class="small_button">Add</a>
+					
+					</div>
+				</div>
+				<div class="trow" ng-repeat="cat in categories.agency">
+					<div class="col1 col indent">
+						<a href="#admin/groups/edit/{{cat.id}}">
+							{{cat.name}}
+						</a>
+					</div>
+					
+					<div class="col4 col">
+						<a href="#admin/groups/edit/{{cat.id}}" class="small_button">Edit</a>
+						<a ng-click="deleteGroup(cat)" class="small_button" ><img src="images/trash.png" /></a>
+					</div>
+				</div>
+		
+			</div>
+		</div>
+	</div>
+</div>

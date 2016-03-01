@@ -33,7 +33,11 @@
 			<div class="list_table">
 				<div class="trow" ng-repeat="user in pagedItems">
 					<div class="col1 col">
-						<a href="#admin/users/edit/{{user.uid}}"><img src="images/icon.png">{{user.name}}</a>
+						<a href="#admin/users/edit/{{user.uid}}">
+							<img src="attachs/{{user.profile_image}}" ng-show="user.profile_image">
+							<img src="images/name/{{user.name | iconname}}" ng-hide="user.profile_image">
+							{{user.name}}
+						</a>
 					</div>
 					<div class="col2 col">
 						<p class="email">{{user.email}}</p>
@@ -47,6 +51,10 @@
 						<a ng-click="deleteUser(user)" class="small_button" ><img src="images/trash.png" /></a>
 					</div>
 				</div>
+				<ul class="pagination">
+					<li ng-repeat="link in pageLink" ng-click="loadPage(link)" data-ng-class="{'active' : (link-1)==currentPage}" >{{link}}
+					</li>
+				</ul>
 			</div>
 		</div>
 	</div>

@@ -10,9 +10,10 @@ app.controller('fblistCtrl', function ($scope, $rootScope, $routeParams, $locati
     /*Data.get('totalFB').then(function (results) {
         $scope.total=results;
     });*/
-
+    $scope.selectedAll=false;
     $scope.checkAll = function () {
-        if ($scope.selectedAll) {
+        console.log("click_checkall");
+        if (!$scope.selectedAll) {
             $scope.selectedAll = true;
         } else {
             $scope.selectedAll = false;
@@ -35,9 +36,114 @@ app.controller('fblistCtrl', function ($scope, $rootScope, $routeParams, $locati
 
   
     $scope.publish = function(){
-        console.log($scope.selection);
-    
+
+      var itemSelected=[];
+      angular.forEach($scope.pagedItems, function (item) {
+          if( item.Selected )
+          {
+            itemSelected.push(item.id);
+           
+          }
+       });
+      if(itemSelected.length)
+      {
+          Data.post('updateListFB', {
+            is_approve:"1",
+            fbids:itemSelected,
+            usr_approve:$scope.uid
+          }).then(function (results) {
+             Data.toast(results);
+             angular.forEach($scope.pagedItems, function (item) {
+                    item.Selected = false;
+                    $scope.upateItem(item);
+             });
+             $scope.selectedAll=false;
+        });
+        }else{
+          var results=[];
+          results.status="info";
+          results.message="Please select item first";
+           Data.toast(results);
+        }
+       console.log(itemSelected.length);    
     }
+
+    $scope.unpublish = function(){
+
+      var itemSelected=[];
+      angular.forEach($scope.pagedItems, function (item) {
+          if( item.Selected )
+          {
+            itemSelected.push(item.id);
+           
+          }
+       });
+      if(itemSelected.length)
+      {
+          Data.post('updateListFB', {
+            is_approve:"0",
+            fbids:itemSelected,
+            usr_approve:$scope.uid
+          }).then(function (results) {
+             Data.toast(results);
+             angular.forEach($scope.pagedItems, function (item) {
+                    item.Selected = false;
+                   $scope.upateItem(item);
+             });
+             $scope.selectedAll=false;
+        });
+        }else{
+          var results=[];
+          results.status="info";
+          results.message="Please select item first";
+           Data.toast(results);
+        }
+       console.log(itemSelected.length);    
+    }
+
+    $scope.removeItem = function(item) { 
+      var index = $scope.pagedItems.indexOf(item);
+      $scope.pagedItems.splice(index, 1); 
+    }
+    $scope.upateItem = function(item) { 
+      var index = $scope.pagedItems.indexOf(item);
+      $scope.pagedItems[index]=item;
+    }
+
+    $scope.delete = function(){
+      var itemSelected=[];
+      angular.forEach($scope.pagedItems, function (item) {
+          if( item.Selected )
+          {
+            itemSelected.push(item.id);
+           
+          }
+       });
+      if(itemSelected.length)
+      {
+          Data.post('deleteListFB', {
+            is_approve:"0",
+            fbids:itemSelected,
+            usr_approve:$scope.uid
+          }).then(function (results) {
+
+             Data.toast(results);
+             angular.forEach($scope.pagedItems, function (item) {
+                    item.Selected = false;
+                    $scope.removeItem(item);
+             });
+             $scope.selectedAll=false;
+
+        });
+        }else{
+          var results=[];
+          results.status="info";
+          results.message="Please select item first";
+           Data.toast(results);
+        }
+       console.log(itemSelected.length);    
+    }
+
    // $scope.total =100;
     //$scope.pagedItems = Item.get($scope.currentPage*$scope.itemsPerPage,
    // $scope.itemsPerPage);

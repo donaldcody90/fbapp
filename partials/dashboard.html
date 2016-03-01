@@ -24,7 +24,7 @@
         <div class="recent">
         <h4>Recent Activity</h4>
             <div class="item" ng-repeat="post in posts">
-                <img src="images/icon.png">
+                <img src="images/name/{{post.name | iconname}}">
                 <div class="info">
                     <p><strong>{{post.name ? post.name:"Anonymous"}}</strong> - {{post.content | cut:true:100}}</p>
                     <p class="datetime">{{post.create_date | fulldatetime}}</p>

@@ -56,6 +56,28 @@ app.config(['$routeProvider',
                 role: '0',
                 backend:'1'
             })
+            .when('/admin/groups', {
+                title: 'groups',
+                templateUrl: 'partials/groups.html',
+                controller: 'groupsCtrl',
+                role: '0',
+                backend:'1'
+            })
+            .when('/admin/groups/edit/:gid', {
+                url: '/:gid',
+                title: 'groups',
+                templateUrl: 'partials/editgroup.html',
+                controller: 'groupsCtrl',
+                role: '0',
+                backend:'1'
+            })
+            .when('/admin/groups/add', {
+                title: 'groups',
+                templateUrl: 'partials/addgroup.html',
+                controller: 'groupsCtrl',
+                role: '0',
+                backend:'1'
+            })
             .when('/admin/users', {
                 title: 'users',
                 templateUrl: 'partials/users.html',
@@ -70,13 +92,15 @@ app.config(['$routeProvider',
                 role: '0',
                 backend:'1'
             })
-             .when('/admin/users/edit/:uid', {
+            .when('/admin/users/edit/:uid', {
+                url: '/:uid',
                 title: 'users',
-                templateUrl: 'partials/adduser.html',
+                templateUrl: 'partials/edituser.html',
                 controller: 'usersCtrl',
                 role: '0',
                 backend:'1'
             })
+           
              .when('/admin', {
                 title: 'Login',
                 templateUrl: 'partials/login.html',
@@ -130,7 +154,7 @@ app.config(['$routeProvider',
             
             $rootScope.role = 0;
             $rootScope.backend=next.$$route.backend;
-            console.log($rootScope.frontend);
+         
             Data.get('session').then(function (results) {
                 if (results.uid) {
                     console.log(results);
@@ -207,5 +231,25 @@ angular.module('fbApp').filter('datetime', function($filter)
 app.filter('html', function($sce) {
     return function(val) {
         return $sce.trustAsHtml(val);
+    };
+});
+
+
+app.filter('iconname', function($sce) {
+    return function(val) {
+        return $sce.trustAsHtml(val);
+    };
+});
+
+
+
+app.filter('iconname', function($sce) {
+    return function(val) {
+        
+        if(val == null || val==""){ 
+            return "anonimous.png"; 
+        }else{ 
+            return val[0].toLowerCase()+".png";
+        }
     };
 });

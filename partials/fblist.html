@@ -42,26 +42,26 @@
 					</div>
 				</div>
 				<div class="fb-header">
-					<div class="check-all"><input type="checkbox" class="form-control fb-check" ng-model="master"  /></div>
+					<div class="check-all"><input ng-click="checkAll()" type="checkbox" class="form-control fb-check" ng-model="selectedAll"  /></div>
 					<ul class="fb-links">
 						<li class="col-md-4"><a ng-click="publish()">Publish</a></li>
-						<li class="col-md-4"><a>Unpublish</a></li>
-						<li class="col-md-4"><a>Delete</a></li>
+						<li class="col-md-4"><a ng-click="unpublish()">Unpublish</a></li>
+						<li class="col-md-4"><a ng-click="delete()">Delete</a></li>
 					</ul>
 				</div>
 				<div class="fbitems">
 					<div class="fb-item" ng-repeat="fb in pagedItems">
 						<div class="fb-checkitem">
-							<input type="checkbox" name="fbcheck"  ng-model="selected[fb.id]" class="form-control fb-check" ng-checked="master" />
+							<input type="checkbox" name="fbcheck"  ng-model="fb.Selected" class="form-control fb-check"  />
 						</div>
-			      		<img src="images/icon.png">
+			      		<img src="images/name/{{fb.name | iconname}}">
 			      		<div class="fb-info">
 			      			<a ng-href="#admin/fblist/{{fb.id}}" ><p><span class="fb-name">{{fb.name ? fb.name:"Anonymous"}}</span> - {{fb.subject}}</p></a>
 			      			<p class="datetime">{{fb.create_date | fulldatetime}}</p>
 			      		</div>
 			      		<div class="fb-uinfo">
 			      			<p>User: Admin</p>
-			      			<p>Status: New</p>
+			      			<p>Status:{{fb.is_approve == 1 ? "Published":"UnPublish"}}</p>
 			      		</div>
 			      	</div>
 

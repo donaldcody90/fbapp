@@ -17,7 +17,7 @@ SET FOREIGN_KEY_CHECKS=0;
 -- ----------------------------
 -- Table structure for `categories`
 -- ----------------------------
-DROP TABLE IF EXISTS `categories`;
+
 CREATE TABLE `categories` (
   `id` int(12) unsigned NOT NULL AUTO_INCREMENT,
   `name` varchar(255) DEFAULT NULL,
@@ -39,7 +39,7 @@ INSERT INTO categories VALUES ('6', 'Agency 03', '3');
 -- ----------------------------
 -- Table structure for `fbcomment`
 -- ----------------------------
-DROP TABLE IF EXISTS `fbcomment`;
+
 CREATE TABLE `fbcomment` (
   `id` bigint(11) unsigned NOT NULL AUTO_INCREMENT,
   `fid` bigint(11) DEFAULT NULL,
@@ -68,7 +68,7 @@ INSERT INTO fbcomment VALUES ('39', '78', 'John Hard', 'Admin add new comments',
 -- ----------------------------
 -- Table structure for `feedbacks`
 -- ----------------------------
-DROP TABLE IF EXISTS `feedbacks`;
+
 CREATE TABLE `feedbacks` (
   `id` bigint(10) unsigned NOT NULL AUTO_INCREMENT,
   `name` varchar(255) DEFAULT NULL,
@@ -104,7 +104,7 @@ INSERT INTO feedbacks VALUES ('82', 'Van VAn', 'For agency global', 'For agency 
 -- ----------------------------
 -- Table structure for `settings`
 -- ----------------------------
-DROP TABLE IF EXISTS `settings`;
+
 CREATE TABLE `settings` (
   `meta_key` varchar(255) NOT NULL DEFAULT '',
   `meta_value` longtext,
@@ -119,7 +119,7 @@ INSERT INTO settings VALUES ('anonymous_text', '<p>Lorem ipsum dolor sit amet, c
 -- ----------------------------
 -- Table structure for `users`
 -- ----------------------------
-DROP TABLE IF EXISTS `users`;
+
 CREATE TABLE `users` (
   `uid` int(11) NOT NULL AUTO_INCREMENT,
   `name` varchar(50) NOT NULL,
